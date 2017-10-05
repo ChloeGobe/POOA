@@ -5,12 +5,12 @@
 from requests import get, HTTPError
 from re import sub
 
-def google_api_search(depart, arrivee):
+def google_api_search(depart, arrivee, mode):
 
     print("")
 
     #Retrieve the get
-    resp = get('https://maps.googleapis.com/maps/api/directions/json?origin='+ depart + '&destination='+ arrivee +'&mode=DRIVING&key=AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw')
+    resp = get('https://maps.googleapis.com/maps/api/directions/json?origin='+ depart + '&destination='+ arrivee +'&mode=' + mode + '&key=AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw')
     if resp.status_code != 200:
 
         # This means something went wrong.

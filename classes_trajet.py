@@ -1,4 +1,4 @@
-##Classe qui définir les différents trajets
+##Classe qui definir les différents trajets
 import webservices
 
 class Trajet:

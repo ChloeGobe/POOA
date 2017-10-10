@@ -15,7 +15,7 @@ class Trajet:
         """Fait appel au service web Google Maps pour les trajets à pied"""
         web_services_google = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "WALKING")
         temps = web_services_google.webservices.GoogleClass.get_time()
-        return temps
+        self.temps_trajet = temps
 
 
 

@@ -2,6 +2,7 @@
 
 from requests import get, HTTPError
 from re import sub
+import datetime
 
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 
@@ -58,6 +59,14 @@ class GoogleClass:
             #Clean the directions from html using a regex
             #expression = r'<[^>]*>'
             #directions_propres = [sub(expression,"",element) for element in directions]
+            try:
+                hour, minute = temps.split("hour")
+                minute = minute.split(" ")
+                minute = minute[1]
+            except:
+                hour = 0
+                minute = temps.split(" ")
+                minute = minute[0]
 
-            #Print directions
-            return temps
+            time = 60 * int(hour) + int(minute)
+            return time

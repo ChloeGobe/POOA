@@ -1,7 +1,7 @@
 Readme
 
 # PROJET POOA
-<i>Eymard Houdeville, Chloé Gobé
+<i>Eymard Houdeville, Chloé Gobé</i>
 
 ## Comment y aller ?
 A partir des coordonnées GPS d’une personne et de l’adresse à laquelle elle veut se rendre et de certains critères,

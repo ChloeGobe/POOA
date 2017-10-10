@@ -26,8 +26,6 @@ class Trajet:
          """Fait appel au service web Google Maps pour les trajets en metro
         Retourne un json avec le temps de trajet et les etapes de l'itineraire"""
          web_services_metro = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "transit")
-         temps = web_services_metro.get_time()
-         etapes = web_services_metro.get_etapes()
          dic = {
              'duration': web_services_metro.get_time(),
              "etapes": web_services_metro.get_etapes(),

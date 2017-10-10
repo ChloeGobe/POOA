@@ -14,7 +14,7 @@ if __name__ == '__main__':
     for i in trajets:
         print(i['duration'])
 
-        # Convertir les chaines de caractères en min pour la comparaison
+        # Convertir les chaines de caract en min pour la comparaison
         if i['duration']<trajet_min['duration']:
             trajet_min = i
 

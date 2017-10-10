@@ -33,9 +33,10 @@ class GoogleClass:
                 raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
 
             result = resp.json()
-            result = resp.json()
             #Retrieve the directions from the result
             temps = result.get('routes')[0].get('legs')[0].get('steps')
+
+
             return temps
 
 

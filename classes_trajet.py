@@ -13,7 +13,7 @@ class Trajet:
     def get_trajet_pieton (self):
         """Fait appel au service web Google Maps pour les trajets a pied
         Retourne un json avec le temps de trajet et les etapes de l'itineraire"""
-        web_services_pied = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "WALKING")
+        web_services_pied = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "walking")
         dic = {
             'duration' : web_services_pied.get_time(),
             "etapes" : web_services_pied.get_etapes(),
@@ -25,7 +25,7 @@ class Trajet:
     def get_trajet_transit(self):
          """Fait appel au service web Google Maps pour les trajets en metro
         Retourne un json avec le temps de trajet et les etapes de l'itineraire"""
-         web_services_metro = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "TRANSIT")
+         web_services_metro = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "transit")
          temps = web_services_metro.get_time()
          etapes = web_services_metro.get_etapes()
          dic = {
@@ -34,7 +34,3 @@ class Trajet:
              "mode" : "TRANSIT"
          }
          return dic
-
-
-
-

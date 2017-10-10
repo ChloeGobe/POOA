@@ -35,14 +35,16 @@ class GoogleClass:
 
             result = resp.json()
             #Retrieve the directions from the result
-            temps = result.get('routes')[0].get('legs')[0].get('steps')
+            #Clean the directions from html using a regex
+            expression = r'<[^>]*>'
+            directions = [element.get('html_instructions') for element in result.get('routes')[0].get('legs')[0].get('steps')]
 
+            directions_propres = [sub(expression,"",element) for element in directions]
 
-            return temps
+            return directions_propres
 
 
         def get_time(self):
-
             #Retrieve the get
             url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
             resp = self.communication(url)
@@ -50,15 +52,11 @@ class GoogleClass:
             if resp.status_code != 200:
                 # This means something went wrong.
                 raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
-
             #Parse the Get response into a JSON
             result = resp.json()
             #Retrieve the directions from the result
             temps = result.get('routes')[0].get('legs')[0].get('duration').get('text')
 
-            #Clean the directions from html using a regex
-            #expression = r'<[^>]*>'
-            #directions_propres = [sub(expression,"",element) for element in directions]
             try:
                 hour, minute = temps.split("hour")
                 minute = minute.split(" ")

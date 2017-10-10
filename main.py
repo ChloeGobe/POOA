@@ -15,5 +15,7 @@ if __name__ == '__main__':
         if i['duration']<trajet_min['duration']:
             trajet_min = i
 
-    print(trajet_min['mode'])
-    print(trajet_min['duration'])
+    print("Le meilleur trajet est " + str(trajet_min['mode']) + " avec un temps de " + str(trajet_min['duration']))
+    print("Etapes a suivre:\n")
+    for elem in trajet_min['etapes']:
+        print(elem)

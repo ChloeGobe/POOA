@@ -1,6 +1,8 @@
 ##Classe qui definir les differents trajets
 import webservices
 
+
+
 class Trajet:
     """Definit la classe trajet generale, notamment les trajets a pied"""
     def __init__(self, lieu_depart, lieu_arrivee):
@@ -21,6 +23,9 @@ class Trajet:
         }
         return dic
 
+
+
+    #Creer une classe Trajet Metro quand il s agira de raffiner les choix pour les trajets en metro
 
     def get_trajet_transit(self):
          """Fait appel au service web Google Maps pour les trajets en metro

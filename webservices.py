@@ -7,8 +7,6 @@ import datetime
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 
-
-
 class GoogleClass:
         def __init__(self,departure,arrival,mode):
 

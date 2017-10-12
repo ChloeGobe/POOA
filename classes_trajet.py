@@ -23,10 +23,7 @@ class Trajet:
         }
         return dic
 
-
-
     #Creer une classe Trajet Metro quand il s agira de raffiner les choix pour les trajets en metro
-
     def get_trajet_transit(self):
          """Fait appel au service web Google Maps pour les trajets en metro
         Retourne un json avec le temps de trajet et les etapes de l'itineraire"""

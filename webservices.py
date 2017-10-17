@@ -68,10 +68,14 @@ class WeatherClass:
         resp = get(url)
         return resp
 
-class OpendataparisClass:
+class OpendataParisClass:
     def call_opendata(self,lat,lng,radius,dataset):
-        url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&facet=ville&facet=cp&facet=type&geofilter.distance="+lat+"%2C"+lng+"%2C"+radius
+        url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&facet=ville&facet=cp&facet=type&sort=dist&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         resp = get(url)
-        print(resp)
-        return resp
+        reponse = resp.json()
+        return reponse
 
+if __name__ == '__main__':
+    test = OpendataParisClass()
+    reponse = test.call_opendata(48.8, 2.34, 5000, "stations_et_espaces_autolib_de_la_metropole_parisienne")
+    print(reponse.get("records")[0].get("fields"))

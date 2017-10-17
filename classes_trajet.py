@@ -34,3 +34,23 @@ class Trajet:
              "mode" : "TRANSIT"
          }
          return dic
+
+
+class Velib(Trajet):
+    """Classe Velib"""
+    def __init__(self, lieu_depart, lieu_arrivee):
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+        self.station_depart = []
+        self.station_arrivee = []
+
+    def get_station_depart(self):
+        velib_api = webservices.VelibClass()
+        liste_stations = velib_api.get_stations_list()
+        print(liste_stations)
+
+
+if __name__ == '__main__':
+    A = "123 rue Saint Jacques"
+    B = "32 rue de Passy"
+    test = Velib(A,B)
+    test.get_station_depart()

@@ -62,11 +62,27 @@ class GoogleClass:
             time = 60 * int(hour) + int(minute)
             return time
 
+        def get_latlong(self,address):
+            # We shall start by a transformation of the adress into something we can send to google
+            address.replace(" ", "+")
+            url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="+GOOGLE_KEY
+            resp = self.communication(url)
+            result = resp.json()
+            coord = result['results'][0]['geometry']['location']
+            print(coord)
+            return (coord)
+
+
 class WeatherClass:
     def get_ifit_rains(self,city):
         url="http://api.openweathermap.org/data/2.5/weather?q="+city+",uk&APPID="+WEATHER_KEY
         resp = get(url)
-        return resp
+        return resp.json()
+
+
+
+
+
 
 class OpendataParisClass:
     def call_opendata(self,lat,lng,radius,dataset):

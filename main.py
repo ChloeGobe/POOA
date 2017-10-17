@@ -9,7 +9,16 @@ if __name__ == '__main__':
 
     # Gestion de la pluie en A
     weather = WeatherClass()
+
+    good_conditions = 1
+
+    bad_conditions = ["shower rain","rain","thunderstorm","snow","mist"]
+
     does_it_rain = weather.get_ifit_rains(A)
+    if does_it_rain['weather']['description'] in bad_conditions:
+        good_conditions=0
+    else
+        good_conditions=1
 
     trajet_a_pied = Trajet(A,B)
     #moyens_de_transport = ['transit','pied']

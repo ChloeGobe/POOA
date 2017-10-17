@@ -18,3 +18,4 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 - Multithreading
 - Raffiner les fonctions
 - Interface graphique
+- Verif que Autolib et Velib bien ouvertes + un velib dispo

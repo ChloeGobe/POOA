@@ -72,9 +72,10 @@ class VelibClass:
     def get_stations_list(self):
         url=" https://api.jcdecaux.com/vls/v1/stations?contract=Paris&apiKey="+VELIB_KEY
         resp = get(url)
+        resp_clean= []
 
         for station in resp:
-            if station['status']!="CLOSED":
-                del resp[station
+            if station['status']=="OPEN":
+                resp_clean.append(station)
 
-        return resp
+        return resp_clean

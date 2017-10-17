@@ -41,8 +41,6 @@ class Velib(Trajet):
 
     def __init__(self,lieu_depart, lieu_arrivee):
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
-        self.station_depart = ''
-        self.station_arrivee = ''
         self.dataset = "stations-velib-disponibilites-en-temps-reel"
 
     def get_station_velib(self, lat, lng):
@@ -59,8 +57,6 @@ class Autolib(Trajet):
 
     def __init__(self, lieu_depart, lieu_arrivee):
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
-        self.borne_depart = ''
-        self.borne_arrivee = ''
         self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
 
     def get_station_autolib(self, lat, lng):

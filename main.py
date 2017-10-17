@@ -4,8 +4,8 @@ from webservices import WeatherClass
 if __name__ == '__main__':
 
     print("Please enter point A and point B in Paris")
-    A = raw_input("Rue A")
-    B = raw_input("Rue B")
+    A = input("Rue A")
+    B = input("Rue B")
 
     # Gestion de la pluie en A
     weather = WeatherClass()
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     does_it_rain = weather.get_ifit_rains(A)
     if does_it_rain['weather']['description'] in bad_conditions:
         good_conditions=0
-    else
+    else:
         good_conditions=1
 
     trajet_a_pied = Trajet(A,B)

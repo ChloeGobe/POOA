@@ -23,6 +23,12 @@ class Trajet:
         }
         return dic
 
+
+class Metro(Trajet):
+
+    def __init__(self, lieu_depart, lieu_arrivee):
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+
     #Creer une classe Trajet Metro quand il s agira de raffiner les choix pour les trajets en metro
     def get_trajet_transit(self):
          """Fait appel au service web Google Maps pour les trajets en metro
@@ -37,18 +43,42 @@ class Trajet:
 
 
 
+
 class Velib(Trajet):
 
     def __init__(self,lieu_depart, lieu_arrivee):
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
+        self.__station_depart = self.get_closest_station(lieu_depart)
+        self.__station_arrivee = self.get_closest_station(lieu_arrivee)
         self.dataset = "stations-velib-disponibilites-en-temps-reel"
+        #Self.etape1 : self.get_traject_pieton()
+        #etape2 : self.get_traject_velo_google()
+        #etape3 : self.get_trajet_pieton()
 
-    def get_station_velib(self, lat, lng):
+    @property
+    def get_station_arrivee(self):
+        return self.__station_arrivee
+
+
+
+
+    def get_closest_station(self, adresse):
+
+        ### Transformer adresse en latitute longitude
+        ## lat, long = GoogleMaps.geloc(adresse)
+
         radius = 5000
         web_services_velib = webservices.OpendataParisClass()
-        resp= web_services_velib.call_opendata(lat, lng, radius, self.dataset)
+        resp = web_services_velib.call_opendata(lat, lng, radius, self.dataset)
         closest_station = resp.get("records")[0].get("fields")
         return closest_station
+
+    # def get_trajet_velo()
+    # Google
+
+
+
+
 
 
 

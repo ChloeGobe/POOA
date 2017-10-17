@@ -75,25 +75,3 @@ class OpendataparisClass:
         print(resp)
         return resp
 
-    def get_list_stations_velib(self,lat,lng):
-        dataset="stations_et_espaces_autolib_de_la_metropole_parisienne"
-        for station in resp:
-            if station['status']=="OPEN":
-                resp_clean.append(station)
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-    def get_list_stations_velib(self,lat,lng):
-
-
-    def get_stations_close():
-        stations_et_espaces_autolib_de_la_metropole_parisienne
-
-
-class latlonggoogle
-=======
-        return resp_clean
->>>>>>> 9408fc9138c501c56618b5c0807c44ccad9967c0
-=======
-        return resp_clean
->>>>>>> 801ffb22aea8ac7141ec00a8d1e33ccbbd2c4aa9

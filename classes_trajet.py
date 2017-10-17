@@ -34,3 +34,40 @@ class Trajet:
              "mode" : "TRANSIT"
          }
          return dic
+
+
+
+class Velib(Trajet):
+
+    def __init__(self,lieu_depart, lieu_arrivee):
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+        self.station_depart = ''
+        self.station_arrivee = ''
+        self.dataset = "stations-velib-disponibilites-en-temps-reel"
+
+    def get_station_velib(self, lat, lng):
+        radius = 5000
+        web_services_velib = webservices.OpendataParisClass()
+        resp= web_services_velib.call_opendata(lat, lng, radius, self.dataset)
+        closest_station = resp.get("records")[0].get("fields")
+        return closest_station
+
+
+
+
+class Autolib(Trajet):
+
+    def __init__(self, lieu_depart, lieu_arrivee):
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+        self.borne_depart = ''
+        self.borne_arrivee = ''
+        self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
+
+    def get_station_autolib(self, lat, lng):
+        radius = 5000
+        web_services_velib = webservices.OpendataParisClass()
+        resp = web_services_velib.call_opendata(lat, lng, radius, self.dataset)
+        closest_station = resp.get("records")[0].get("fields")
+        return closest_station
+
+

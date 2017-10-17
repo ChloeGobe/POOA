@@ -3,9 +3,11 @@
 from requests import get, HTTPError
 from re import sub
 import datetime
+from veliberator.geofinder import BaseGeoFinder
 
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
+VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 class GoogleClass:
         def __init__(self,departure,arrival,mode):
@@ -66,3 +68,16 @@ class WeatherClass:
         url="http://api.openweathermap.org/data/2.5/weather?q="+city+",uk&APPID="+WEATHER_KEY
         resp = get(url)
         return resp
+
+class VelibClass:
+    def get_stations_list(self):
+        url=" https://api.jcdecaux.com/vls/v1/stations?contract=Paris&apiKey="+VELIB_KEY
+        resp = get(url)
+        return resp
+
+    def get_closest_station(self,lat,longi):
+        geo = BaseGeoFinder(lat,longi)
+        stations_around = get.get_stations_around(3)
+        print(stations_around)
+
+        return(stations_around)

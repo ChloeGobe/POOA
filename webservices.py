@@ -3,7 +3,6 @@
 from requests import get, HTTPError
 from re import sub
 import datetime
-from veliberator.geofinder import BaseGeoFinder
 
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
@@ -73,11 +72,9 @@ class VelibClass:
     def get_stations_list(self):
         url=" https://api.jcdecaux.com/vls/v1/stations?contract=Paris&apiKey="+VELIB_KEY
         resp = get(url)
+
+        for station in resp:
+            if station['status']!="CLOSED":
+                del resp[station
+
         return resp
-
-    def get_closest_station(self,lat,longi):
-        geo = BaseGeoFinder(lat,longi)
-        stations_around = get.get_stations_around(3)
-        print(stations_around)
-
-        return(stations_around)

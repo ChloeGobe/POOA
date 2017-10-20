@@ -10,12 +10,11 @@ On se limitera à la ville de Paris et on se concentrera sur des critères tels 
 les stations de métro/vélib/autolib à proximité du lieu de départ et d’arrivée, la charge à porter, etc…
 
 ## Que reste-t'il à faire ?
-- Meteo
+- Commentaires
+- Accesseurs et mutateurs
 - Faire des contrôles sur l'input
 - Charge
-- Velib
-- Autolib
-- Multithreading
+- (Multithreading)
 - Raffiner les fonctions
 - Interface graphique
-- Verif que Autolib et Velib bien ouvertes + un velib dispo
+- Uber

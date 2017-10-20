@@ -51,6 +51,7 @@ class GoogleClass:
             result = resp.json()
             #Retrieve the directions from the result
             temps = result.get('routes')[0].get('legs')[0].get('duration').get('text')
+
             try:
                 hour, minute = temps.split("hour")
                 minute = minute.split(" ")
@@ -59,7 +60,7 @@ class GoogleClass:
                 hour = 0
                 minute = temps.split(" ")
                 minute = minute[0]
-            time = 60 * int(hour) + int(minute)
+            time = datetime.time(hour, minute)
             return time
 
         def get_latlong(self,address):
@@ -69,8 +70,7 @@ class GoogleClass:
             resp = self.communication(url)
             result = resp.json()
             coord = result['results'][0]['geometry']['location']
-            print(coord)
-            return (coord)
+            return (coord['lat'], coord['lng'])
 
 
 class WeatherClass:
@@ -87,7 +87,3 @@ class OpendataParisClass:
         reponse = resp.json()
         return reponse
 
-if __name__ == '__main__':
-    test = OpendataParisClass()
-    reponse = test.call_opendata(48.8, 2.34, 5000, "stations_et_espaces_autolib_de_la_metropole_parisienne")
-    print(reponse.get("records")[0].get("fields"))

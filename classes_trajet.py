@@ -20,7 +20,7 @@ class Trajet:
 
     def get_trajet_total(self):
         etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
-        etapeB = self.get_trajet_specifique(self.lieu_depart, self.lieu_arrivee, self.mode)
+        etapeB = self.get_trajet_specifique()
         etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
 
         summary = {
@@ -74,7 +74,7 @@ class Location(Trajet):
         radius = 5000
         web_services_velib = webservices.OpendataParisClass()
         resp = web_services_velib.call_opendata(lat, lng, radius, self.dataset)
-        closest_station = resp.get("records")[0].get("fields")
+        closest_station = resp
         return closest_station
 
 

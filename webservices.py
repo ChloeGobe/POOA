@@ -10,7 +10,7 @@ VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 class GoogleClass:
         def __init__(self,departure,arrival,mode):
-            print(departure)
+            print(arrival)
             print(type(arrival))
             if not isinstance(departure, str):
                 raise TypeError("Le departure doit etre une chaine de caracteres")
@@ -97,7 +97,11 @@ class OpendataParisClass:
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         resp = get(url)
         reponse = resp.json()
-
+        if reponse.get("records")[0].get("fields").get("adresse") != None:
+            reponse = reponse.get("records")[0].get("fields").get("adresse")
+        elif reponse.get("records")[0].get("fields").get("adresse")== None:
+            reponse = reponse.get("records")[0].get("fields").get("address")
+        reponse = reponse.encode('ascii','ignore')
         return reponse
 
 

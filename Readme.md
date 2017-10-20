@@ -18,3 +18,4 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 - Raffiner les fonctions
 - Interface graphique
 - Uber
+- Prendre que les stations ouvertes

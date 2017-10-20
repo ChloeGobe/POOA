@@ -12,6 +12,7 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 ## Que reste-t'il à faire ?
 - Commentaires
 - Accesseurs et mutateurs
+- Verifier la disponibilité des autolibs
 - Faire des contrôles sur l'input
 - Charge
 - (Multithreading)

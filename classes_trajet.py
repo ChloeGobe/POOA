@@ -32,13 +32,13 @@ class Trajet:
         self.etape_iti = self.get_trajet_total()["etapes"]
         self.temps_trajet = self.get_trajet_total()["duration"]
 
-        @property
-        def etapes_iti(self):
-            return self.get_trajet_total()["etapes"]
+    @property
+    def etapes_iti(self):
+        return self.get_trajet_total()["etapes"]
 
-        @property
-        def temps_trajet(self):
-            return self.get_trajet_total()["duration"]
+    @property
+    def temps_trajet(self):
+        return self.get_trajet_total()["duration"]
 
 class Pieton(Trajet):
 

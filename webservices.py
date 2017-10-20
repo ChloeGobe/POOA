@@ -60,6 +60,8 @@ class GoogleClass:
                 hour = 0
                 minute = temps.split(" ")
                 minute = minute[0]
+
+            # Voir avec les delta
             time = datetime.time(hour, minute)
             return time
 
@@ -69,15 +71,24 @@ class GoogleClass:
             url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="+GOOGLE_KEY
             resp = self.communication(url)
             result = resp.json()
-            coord = result['results'][0]['geometry']['location']
+            coord = result.get('results')[0].get('geometry').get('location')
             return (coord['lat'], coord['lng'])
 
 
 class WeatherClass:
-    def get_ifit_rains(self,city):
-        url="http://api.openweathermap.org/data/2.5/weather?q="+city+",uk&APPID="+WEATHER_KEY
-        resp = get(url)
-        return resp.json()
+    def __init__(self, city):
+        self.city = city
+
+    def does_it_rain(self):
+        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",uk&APPID="+WEATHER_KEY
+        resp = get(url).json()
+        meteo = resp.get('weather')[0].get('description')
+        bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
+
+        if meteo in bad_conditions:
+            return True
+        else:
+            return False
 
 
 class OpendataParisClass:
@@ -87,3 +98,7 @@ class OpendataParisClass:
         reponse = resp.json()
         return reponse
 
+
+if __name__ == '__main__':
+    test = WeatherClass("Paris")
+    print(test.get_ifit_rains())

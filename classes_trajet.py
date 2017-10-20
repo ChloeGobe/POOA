@@ -75,17 +75,18 @@ class Location(Trajet):
 class Velib(Location):
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        Location.__init__(self, lieu_depart, lieu_depart)
         self.dataset = "stations-velib-disponibilites-en-temps-reel"
         self.mode = "BICYCLING"
+        Location.__init__(self, lieu_depart, lieu_depart)
 
 
 class Autolib(Location):
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        Location.__init__(self, lieu_depart, lieu_depart)
         self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
         self.mode = "DRIVING"
+        Location.__init__(self, lieu_depart, lieu_depart)
+
 
 
 if __name__ == '__main__':

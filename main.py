@@ -7,21 +7,21 @@ if __name__ == '__main__':
     #depart = input("Depart ?")
     #arrivee = input("Arrivee ?")
     depart = "123 rue Saint Jacques, Paris"
-    arrivee = "32 rue de Passy, Paris"
+    arrivee = "32 rue gay lussac"
 
     # Gestion de la pluie en A
     weather = WeatherClass(depart)
-    bad_conditions = weather.does_it_rain()
+    #bad_conditions = weather.does_it_rain()
 
 
     trajet_metro = Metro(depart, arrivee)
     trajet_autolib = Autolib(depart, arrivee)
     trajets = [trajet_metro, trajet_autolib]
 
-    if not bad_conditions:
-        trajet_a_pied = Pieton(depart, arrivee)
-        trajet_velib = Velib(depart, arrivee)
-        trajets += [trajet_a_pied, trajet_velib]
+    #if not bad_conditions:
+    trajet_a_pied = Pieton(depart, arrivee)
+    trajet_velib = Velib(depart, arrivee)
+    trajets += [trajet_a_pied, trajet_velib]
 
     trajet_min = trajet_autolib
 

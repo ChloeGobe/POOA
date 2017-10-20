@@ -30,6 +30,7 @@ class GoogleClass:
 
         def get_etapes(self):
             url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
+
             resp = self.communication(url)
             if resp.status_code != 200:
                 raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
@@ -37,8 +38,10 @@ class GoogleClass:
             #Retrieve the directions from the result
             #Clean the directions from html using a regex
             expression = r'<[^>]*>'
+
             directions = [element.get('html_instructions') for element in result.get('routes')[0].get('legs')[0].get('steps')]
             directions_propres = [sub(expression,"",element) for element in directions]
+
             return directions_propres
 
         def get_time(self):
@@ -106,5 +109,5 @@ class OpendataParisClass:
 
 
 if __name__ == '__main__':
-    test = WeatherClass("Paris")
-    print(test.get_ifit_rains())
+    test = GoogleClass("rue de passy","rue saint jacques","TRANSIT")
+    etapes = test.get_etapes()

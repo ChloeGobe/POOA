@@ -24,6 +24,7 @@ if __name__ == '__main__':
         trajets += [trajet_a_pied, trajet_velib]
 
     trajet_min = trajet_autolib
+    print(trajet_min.temps_trajet)
 
     for i in trajets:
         if i.temps_trajet < trajet_min.temps_trajet:

@@ -19,9 +19,9 @@ class Trajet:
         return dic
 
     def get_trajet_total(self):
-        etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_pieton()
+        etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
         etapeB = self.get_trajet_specifique(self.lieu_depart, self.lieu_arrivee, self.mode)
-        etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_pieton()
+        etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
 
         summary = {
             "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
@@ -68,8 +68,9 @@ class Location(Trajet):
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
+
     def get_closest_station(self, address):
-        web_services_google = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "WALKING")
+        web_services_google = webservices.GoogleClass(address, "", "WALKING")
         lat, lng = web_services_google.get_latlong(address)
         radius = 5000
         web_services_velib = webservices.OpendataParisClass()
@@ -84,7 +85,7 @@ class Velib(Location):
     def __init__(self, lieu_depart, lieu_arrivee):
         self.dataset = "stations-velib-disponibilites-en-temps-reel"
         self.mode = "BICYCLING"
-        Location.__init__(self, lieu_depart, lieu_depart)
+        Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
 class Autolib(Location):
@@ -92,7 +93,7 @@ class Autolib(Location):
     def __init__(self, lieu_depart, lieu_arrivee):
         self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
         self.mode = "DRIVING"
-        Location.__init__(self, lieu_depart, lieu_depart)
+        Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
 

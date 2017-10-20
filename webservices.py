@@ -10,7 +10,8 @@ VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 class GoogleClass:
         def __init__(self,departure,arrival,mode):
-
+            print(departure)
+            print(type(arrival))
             if not isinstance(departure, str):
                 raise TypeError("Le departure doit etre une chaine de caracteres")
             if not isinstance(arrival, str):
@@ -93,9 +94,10 @@ class WeatherClass:
 
 class OpendataParisClass:
     def call_opendata(self,lat,lng,radius,dataset):
-        url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&facet=ville&facet=cp&facet=type&sort=dist&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
+        url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         resp = get(url)
         reponse = resp.json()
+
         return reponse
 
 

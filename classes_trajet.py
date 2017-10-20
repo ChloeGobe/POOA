@@ -25,11 +25,9 @@ class Trajet:
 
         summary = {
             "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
-            "etapes" : etapeA["etapes"] + etapeB["etapes"] + etapeC["etapes"]
+            "etapes" : etapeA["etapes"] + ["\n\n\n"] + etapeB["etapes"] + ["\n\n\n"] + etapeC["etapes"]
         }
         return summary
-
-
 
     @property
     def etapes_iti(self):
@@ -38,6 +36,8 @@ class Trajet:
     @property
     def temps_trajet(self):
         return self.get_trajet_total()["duration"]
+
+
 
 class Pieton(Trajet):
 
@@ -99,5 +99,9 @@ class Autolib(Location):
 if __name__ == '__main__':
     depart = "123 rue Saint Jacques, Paris"
     arrivee = "32 rue de Passy, Paris"
-    test = Metro(arrivee, depart)
-    test.__dict__
+    test = Velib(arrivee, depart)
+    print(test.station_depart)
+    print(test.station_arrivee)
+    print(test.temps_trajet)
+    #for i in test.etapes_iti:
+    #    print(i)

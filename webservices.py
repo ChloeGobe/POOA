@@ -13,9 +13,17 @@ class GoogleClass:
         def __init__(self,departure,arrival,mode):
 
             if not isinstance(departure, str):
-                raise TypeError("Le departure doit etre une chaine de caracteres")
+                if isinstance(departure, bytes):
+                    departure = departure.decode()
+                else:
+                    raise TypeError("Le departure doit etre une chaine de caracteres")
+
             if not isinstance(arrival, str):
-                raise TypeError("Le arrival doit etre une chaine de caracteres")
+                if isinstance(arrival, bytes):
+                    arrival = arrival.decode()
+                else:
+                    raise TypeError("Le arrival doit etre une chaine de caracteres")
+
             if not isinstance(mode, str):
                 raise TypeError("Le nom doit etre une chaine de caracteres")
 
@@ -64,9 +72,7 @@ class GoogleClass:
                 hour = 0
                 minute = temps.split(" ")
                 minute = minute[0]
-
-            # Voir avec les delta
-            time = datetime.timedelta(int(hour), int(minute))
+            time = datetime.timedelta(minutes= int(minute), hours=int(hour))
             return time
 
         def get_latlong(self,address):
@@ -100,6 +106,7 @@ class OpendataParisClass:
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         resp = get(url)
         reponse = resp.json()
+        print(reponse.get("records")[0])
         if reponse.get("records")[0].get("fields").get("adresse") != None:
             reponse = reponse.get("records")[0].get("fields").get("adresse")
         elif reponse.get("records")[0].get("fields").get("adresse")== None:

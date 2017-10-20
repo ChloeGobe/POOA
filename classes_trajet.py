@@ -29,8 +29,7 @@ class Trajet:
         }
         return summary
 
-        self.etape_iti = self.get_trajet_total()["etapes"]
-        self.temps_trajet = self.get_trajet_total()["duration"]
+
 
     @property
     def etapes_iti(self):

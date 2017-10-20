@@ -3,6 +3,7 @@
 from requests import get, HTTPError
 from re import sub
 import datetime
+import unicodedata
 
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
@@ -10,8 +11,7 @@ VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 class GoogleClass:
         def __init__(self,departure,arrival,mode):
-            print(arrival)
-            print(type(arrival))
+
             if not isinstance(departure, str):
                 raise TypeError("Le departure doit etre une chaine de caracteres")
             if not isinstance(arrival, str):
@@ -63,7 +63,7 @@ class GoogleClass:
                 minute = minute[0]
 
             # Voir avec les delta
-            time = datetime.time(hour, minute)
+            time = datetime.timedelta(int(hour), int(minute))
             return time
 
         def get_latlong(self,address):
@@ -101,7 +101,7 @@ class OpendataParisClass:
             reponse = reponse.get("records")[0].get("fields").get("adresse")
         elif reponse.get("records")[0].get("fields").get("adresse")== None:
             reponse = reponse.get("records")[0].get("fields").get("address")
-        reponse = reponse.encode('ascii','ignore')
+        reponse = reponse.encode('utf8')
         return reponse
 
 

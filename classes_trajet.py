@@ -25,7 +25,7 @@ class Trajet:
 
         summary = {
             "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
-            "etapes" : etapeA["etapes"] + etapeB["etapes"] + etapeC["etapse"]
+            "etapes" : etapeA["etapes"] + etapeB["etapes"] + etapeC["etapes"]
         }
         return summary
 

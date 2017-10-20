@@ -24,13 +24,12 @@ if __name__ == '__main__':
         trajets += [trajet_a_pied, trajet_velib]
 
     trajet_min = trajet_autolib
-    print(trajet_min.temps_trajet)
 
     for i in trajets:
         if i.temps_trajet < trajet_min.temps_trajet:
             trajet_min = i
 
-    print("Le meilleur trajet est " + str(type(trajet_min)) + " avec un temps de " + trajet_min.temps_trajet)
+    print("Le meilleur trajet est " + trajet_min.__class__.__name__ + " avec un temps de " + str(trajet_min.temps_trajet))
     print("Etapes a suivre:\n")
-    for elem in trajet_min['etapes']:
+    for elem in trajet_min.etapes_iti:
         print(elem)

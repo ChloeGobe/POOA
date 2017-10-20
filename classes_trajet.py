@@ -74,8 +74,8 @@ class Location(Trajet):
         radius = 5000
         web_services_velib = webservices.OpendataParisClass()
         resp = web_services_velib.call_opendata(lat, lng, radius, self.dataset)
-        closest_station = resp
-        return closest_station
+        closest_station_address, closest_station_name = self.get_info_station(resp)
+        return closest_station_address
 
 
 
@@ -87,6 +87,25 @@ class Velib(Location):
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
+    def get_info_station(self, reponse_webservices):
+        i = 0
+        statut = reponse_webservices.get("records")[i].get("fields").get("status")
+
+        while statut != "OPEN":
+            i += 1
+            statut = reponse_webservices.get("records")[i].get("fields").get("status")
+
+        adresse = reponse_webservices.get("records")[i].get("fields").get("address")
+        adresse = adresse.encode('utf8')
+        name = reponse_webservices.get("records")[i].get("fields").get("name")
+
+        if isinstance(adresse, bytes):
+            adresse = adresse.decode()
+        if isinstance(name, bytes):
+            name = name.decode()
+        return adresse, name
+
+
 class Autolib(Location):
 
     def __init__(self, lieu_depart, lieu_arrivee):
@@ -94,14 +113,23 @@ class Autolib(Location):
         self.mode = "driving"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
+    def get_info_station(self, reponse_webservices):
+        adresse = reponse_webservices.get("records")[0].get("fields").get("adresse")
+        name = reponse_webservices.get("records")[0].get("fields").get("id_autolib")
+
+        if isinstance(adresse, bytes):
+            adresse = adresse.decode()
+        if isinstance(name, bytes):
+            name = name.decode()
+        return adresse, name
 
 
 if __name__ == '__main__':
     depart = "123 rue Saint Jacques, Paris"
     arrivee = "32 rue de Passy, Paris"
     test = Velib(arrivee, depart)
-    print(test.station_depart)
-    print(test.station_arrivee)
+    #print(test.station_depart)
+    #print(test.station_arrivee)
     print(test.temps_trajet)
     #for i in test.etapes_iti:
     #    print(i)

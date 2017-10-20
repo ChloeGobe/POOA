@@ -13,16 +13,10 @@ class GoogleClass:
         def __init__(self,departure,arrival,mode):
 
             if not isinstance(departure, str):
-                if isinstance(departure, bytes):
-                    departure = departure.decode()
-                else:
-                    raise TypeError("Le departure doit etre une chaine de caracteres")
+                raise TypeError("Le departure doit etre une chaine de caracteres")
 
             if not isinstance(arrival, str):
-                if isinstance(arrival, bytes):
-                    arrival = arrival.decode()
-                else:
-                    raise TypeError("Le arrival doit etre une chaine de caracteres")
+                raise TypeError("Le arrival doit etre une chaine de caracteres")
 
             if not isinstance(mode, str):
                 raise TypeError("Le nom doit etre une chaine de caracteres")
@@ -106,13 +100,8 @@ class OpendataParisClass:
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         resp = get(url)
         reponse = resp.json()
-        print(reponse.get("records")[0])
-        if reponse.get("records")[0].get("fields").get("adresse") != None:
-            reponse = reponse.get("records")[0].get("fields").get("adresse")
-        elif reponse.get("records")[0].get("fields").get("adresse")== None:
-            reponse = reponse.get("records")[0].get("fields").get("address")
-        reponse = reponse.encode('utf8')
         return reponse
+
 
 
 if __name__ == '__main__':

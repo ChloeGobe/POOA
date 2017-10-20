@@ -8,8 +8,6 @@ class Trajet:
     def __init__(self, lieu_depart, lieu_arrivee):
         self.lieu_depart = lieu_depart
         self.lieu_arrivee = lieu_arrivee
-        self.etape_iti = self.get_trajet_total()["etapes"]
-        self.temps_trajet = self.get_trajet_total()["duration"]
 
 
     def get_trajet_specifique(self):
@@ -31,7 +29,16 @@ class Trajet:
         }
         return summary
 
+        self.etape_iti = self.get_trajet_total()["etapes"]
+        self.temps_trajet = self.get_trajet_total()["duration"]
 
+        @property
+        def etapes_iti(self):
+            return self.get_trajet_total()["etapes"]
+
+        @property
+        def temps_trajet(self):
+            return self.get_trajet_total()["duration"]
 
 class Pieton(Trajet):
 

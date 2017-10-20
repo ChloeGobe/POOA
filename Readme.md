@@ -10,6 +10,7 @@ On se limitera à la ville de Paris et on se concentrera sur des critères tels 
 les stations de métro/vélib/autolib à proximité du lieu de départ et d’arrivée, la charge à porter, etc…
 
 ## Que reste-t'il à faire ?
+- Debuguer
 - Commentaires
 - Accesseurs et mutateurs
 - Verifier la disponibilité des autolibs
@@ -17,7 +18,5 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 - Faire des contrôles sur l'input
 - Charge
 - (Multithreading)
-- Raffiner les fonctions
 - Interface graphique
 - Uber
-- Prendre que les stations ouvertes

@@ -13,6 +13,7 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 - Commentaires
 - Accesseurs et mutateurs
 - Verifier la disponibilité des autolibs
+- Enlever les étapes piétonnes A et C sans intérêt (une étape, temps inférieur à une minute)
 - Faire des contrôles sur l'input
 - Charge
 - (Multithreading)

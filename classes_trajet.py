@@ -10,7 +10,7 @@ class Trajet:
         self.lieu_arrivee = lieu_arrivee
         self.etape_iti = self.get_trajet_total()["etapes"]
         self.temps_trajet = self.get_trajet_total()["duration"]
-        self.mode = ""
+
 
     def get_trajet_specifique(self):
         web_services = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, self.mode)
@@ -36,10 +36,10 @@ class Trajet:
 class Pieton(Trajet):
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
         self.station_depart = lieu_depart
         self.station_arrivee = lieu_arrivee
         self.mode = "WALKING"
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
 
@@ -47,19 +47,19 @@ class Pieton(Trajet):
 class Metro(Trajet):
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
         self.station_depart = lieu_depart
         self.station_arrivee = lieu_arrivee
         self.mode = "TRANSIT"
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
 
 class Location(Trajet):
     def __init__(self,lieu_depart, lieu_arrivee):
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
         self.station_depart = self.get_closest_station(lieu_depart)
         self.station_arrivee = self.get_closest_station(lieu_arrivee)
-        self.dataset = ""
+        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+
 
     def get_closest_station(self, address):
         web_services_google = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, "WALKING")

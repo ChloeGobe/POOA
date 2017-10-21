@@ -25,18 +25,20 @@
 <div id="container" class="clearfix">
 
 <div class="container container-pod shorten-container">
-<h1 class="page-title t-center">Choose where to go in Paris</h1>
-<div class="join-bitly t-center">Insure you choose the best path to your destination with CityWalker</div>
+<h1 class="page-title t-center">Centrale Mapper</h1>
+<div class="join-bitly t-center">Where do we go today ?</div>
 
+{{ error_message }}
 <div id="form_container" class="t-center mid-container foot-room">
 
-<form method="POST" action="/" name="shortenUrl" id="unAuthShortenForm">
+<form method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
 <fieldset class="cf">
+{% csrf_token %}
 
-<input id="shorten_url" taborder="1" name="url" type="text" class="shorten-input" placeholder="Where you want to start" value= "{{ current_place }}" autocomplete="off" autocorrect="off" autocapitalize="off" />
-<input id="shorten_url" taborder="1" name="url" type="text" class="shorten-input" placeholder="Where you want to go" value="{{ futur_place }}" autocomplete="off" autocorrect="off" autocapitalize="off" />
-<input type="submit" class="button button-primary button-large" value="Let's go!" />
+<input value= "{{ current_place }}" id="hello" id="shorten_url2" taborder="1" name="depart" type="text" class="shorten-input" placeholder="Where you want to start"  autocomplete="off" autocorrect="off" autocapitalize="off" />
+<input value="{{ futur_place }}"  id="shorten_url" taborder="1" name="arrivee" type="text" class="shorten-input" placeholder="Where you want to go" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
+<input type="submit" type="submit" class="button button-primary button-large" value="Submit"/>
 </fieldset>
 </form>
 
@@ -52,6 +54,11 @@
 </div>
 </div>
 </div>
+
+<div id="iti">
+
+</div>
+
 
 <div id="bottom">
 <form action="" method="get">

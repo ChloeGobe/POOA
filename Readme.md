@@ -14,9 +14,10 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 - Controle des inputs et outputs des webservices
 - Design page de resultat
 - Verification de la cohérence de ce que l'on obtient
+  - Enlever les étapes piétonnes A et C sans intérêt (une étape, temps inférieur à une minute)
 - Accesseurs et mutateurs
 - Verifier la disponibilité des autolibs
-- Enlever les étapes piétonnes A et C sans intérêt (une étape, temps inférieur à une minute)
-- Charge
-- (Multithreading)
 - Uber
+- Charge
+- (Multithreading) OU page web "d'attente" ("Nous calculons l'itinéraire optimal")
+

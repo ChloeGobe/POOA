@@ -10,13 +10,13 @@ On se limitera à la ville de Paris et on se concentrera sur des critères tels 
 les stations de métro/vélib/autolib à proximité du lieu de départ et d’arrivée, la charge à porter, etc…
 
 ## Que reste-t'il à faire ?
-- Debuguer
-- Commentaires
+- Control les inputs globaux (user) => serializer ?
+- Controle des inputs et outputs des webservices
+- Design page de resultat
+- Verification de la cohérence de ce que l'on obtient
 - Accesseurs et mutateurs
 - Verifier la disponibilité des autolibs
 - Enlever les étapes piétonnes A et C sans intérêt (une étape, temps inférieur à une minute)
-- Faire des contrôles sur l'input
 - Charge
 - (Multithreading)
-- Interface graphique
 - Uber

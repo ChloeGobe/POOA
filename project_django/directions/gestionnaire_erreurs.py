@@ -1,0 +1,3 @@
+class AdresseNonComprise(Exception):
+    pass
+

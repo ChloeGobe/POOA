@@ -4,6 +4,16 @@ from requests import get, HTTPError
 from re import sub
 import datetime
 
+
+# Django et Python n'importent pas de la même façon les modules.
+# Il faut donc différencier deux façons d'importer, une qui servira au lancement de Django
+# Et une autre pour l'execution des fichiers Python
+try:
+    from directions import gestionnaire_erreurs
+except ModuleNotFoundError:
+    import gestionnaire_erreurs
+
+
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
@@ -90,6 +100,10 @@ class GoogleClass:
         url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="+GOOGLE_KEY
         resp = self.communication(url)
         result = resp.json()
+
+        if len(result.get('results')) == 0:
+            raise gestionnaire_erreurs.AdresseNonComprise("Google ne trouve pas l'adresse")
+
         coord = result.get('results')[0].get('geometry').get('location')
         return (coord['lat'], coord['lng'])
 
@@ -126,5 +140,5 @@ class OpendataParisClass:
 
 
 if __name__ == '__main__':
-    test = GoogleClass("rue de passy","rue saint jacques","TRANSIT")
-    etapes = test.get_etapes()
+    test = GoogleClass("ZKFJHBDN","rue saint jacques","TRANSIT")
+    etapes = test.get_latlong(test.departure)

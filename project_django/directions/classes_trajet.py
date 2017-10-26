@@ -1,5 +1,11 @@
-##Classe qui definir les differents trajets
-from directions import webservices
+# Django et Python n'importent pas de la même façon les modules.
+# Il faut donc différencier deux façons d'importer, une qui servira au lancement de Django
+# Et une autre pour l'execution des fichiers Python
+try:
+    from directions import webservices
+except ModuleNotFoundError:
+    import webservices
+
 import datetime
 
 
@@ -172,7 +178,7 @@ class Autolib(Location):
 
 if __name__ == '__main__':
     depart = "123 rue Saint Jacques, Paris"
-    arrivee = "32 rue de Passy, Paris"
+    arrivee = "Rue Gay Lussac"
     test = Velib(arrivee, depart)
     #print(test.station_depart)
     #print(test.station_arrivee)

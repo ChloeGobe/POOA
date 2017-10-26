@@ -1,21 +1,67 @@
 
 <!DOCTYPE html>
 <html >
-<head>
-<title>Bitly | URL Shortener and Link Management Platform</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
-<meta name="referrer" content="always">
-<meta name="keywords" content="bitly, awesome, save, share, shorten" />
-<meta name="description" content="Get the most out of your social and online marketing efforts. Own, understand and activate your best audience through the power of the link with Bitly Enterprise." />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="icon" type="image/png" href="//dl6fh5ptkejqa.cloudfront.net/0482a3c938673192a591f2845b9eb275.png" />
-<link href="//d1ayxb9ooonjts.cloudfront.net/d435c925026ca4e33484eb277dbafe8b.css" rel="stylesheet" type="text/css">
+  <head>
+  <title>Centrale Mapper | Optimize your day</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href="//d1ayxb9ooonjts.cloudfront.net/d435c925026ca4e33484eb277dbafe8b.css" rel="stylesheet" type="text/css">
+  <style>
+  /* Center the loader */
+  #loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
 
-</head>
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Add animation to "page content" */
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+  }
+
+  @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 }
+    to { bottom:0px; opacity:1 }
+  }
+
+  @keyframes animatebottom {
+    from{ bottom:-100px; opacity:0 }
+    to{ bottom:0; opacity:1 }
+  }
+
+  #myDiv {
+    display: none;
+    text-align: center;
+  }
+  </style>
+  </head>
+
 <body class="">
 <div class="stage">
-
 
 <header id="header" data-template="stage-header">
 </header>
@@ -28,8 +74,7 @@
 <h1 class="page-title t-center">OPTIMIZE YOUR DAY</h1>
 <div class="join-bitly t-center">Travel with Centrale Mapper</div>
 
-
-<div id="form_container" class="t-center mid-container foot-room">
+<div style="display:block;" id="form_container" class="t-center mid-container foot-room">
 
 <form name="shortenUrl" id="unAuthShortenForm" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
 
@@ -51,26 +96,30 @@
     </div>
 
   </div>
-  <button id="shorten_btn" type="submit" class="button button-primary button-large shorten-button"  type="submit" type="submit" value="Let's go!"/> Let's go ! </button>
 
+<div onclick="waitingAnimation()">
+
+  <input  id="shorten_btn" type="submit" class="button button-primary button-large" type="submit" value="Let's go!"/>
+
+</div>
 </fieldset>
-
-
-
 </form>
-
-
+</div>
+</div>
 </div>
 
-</div>
+<div style="display:none;" class="animate-bottom" id="loader"></div>
+<script>
 
-<div id="bottom">
+function waitingAnimation() {
+  console.log("hello")
+  document.getElementById("loader").style.display = "block";
+  document.getElementById("form_container").style.display = "none";
 
-<form action="" method="get">
-<input type="hidden" name="_xsrf" value="7c59de274f3548fdae0a92be144895bf"/>
-</form>
+}
+</script>
 
-</div>
+
 </div>
 
 
@@ -86,22 +135,12 @@
 <div class="container container-pod t-center">
 <div class="footer-links">
 <ul id="menu-footer-menu" class="nav footer-nav clearfix">
-<li><a href="http://blog.bitly.com/">Site des études</a></li>
+<li><a href="http://www.facebook.com">Site des études</a></li>
 
 
 </ul>
 </div>
-<div class="footer-attribution">
-<a href="../../" class="footer-logo"></a>
 
-</section>
-</footer>
-
-<!-- Promo -->
-
-
-
-</div>
 
 <div id="stage-sidebar">
 <div id="stage-sidebar-scrollable" class="container-scrollable ps-container">

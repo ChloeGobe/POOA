@@ -19,6 +19,8 @@ def results(request):
     if request.method == 'POST':
         content = json.dumps(request.POST)
         content = json.loads(content)
+        depart = "123 rue Saint Jacques Paris"
+        arrivee = "5 avenue de paris Boulogne"
         depart = content['depart']
         arrivee = content['arrivee']
         depart =str(depart)

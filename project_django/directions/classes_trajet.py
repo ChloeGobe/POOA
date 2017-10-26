@@ -1,5 +1,6 @@
 ##Classe qui definir les differents trajets
 from directions import webservices
+import datetime
 
 
 
@@ -34,6 +35,12 @@ class Trajet:
         etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
         etapeB = self.get_trajet_specifique()
         etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
+
+        if etapeA['duration'] < datetime.timedelta(minutes=1):
+            etapeA["etapes"] = ''
+
+        if etapeC['duration'] < datetime.timedelta(minutes=1):
+            etapeC["etapes"] = ''
 
         summary = {
             "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
@@ -169,6 +176,6 @@ if __name__ == '__main__':
     test = Velib(arrivee, depart)
     #print(test.station_depart)
     #print(test.station_arrivee)
-    print(test.temps_trajet)
-    #for i in test.etapes_iti:
-    #    print(i)
+    #print(test.temps_trajet)
+    for i in test.etapes_iti:
+        print(i)

@@ -2,8 +2,8 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
-from  classes_trajet import *
-from webservices import WeatherClass
+from directions.classes_trajet import *
+from directions.webservices import WeatherClass
 import json
 
 def index(request):

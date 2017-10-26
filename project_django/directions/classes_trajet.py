@@ -1,5 +1,5 @@
 ##Classe qui definir les differents trajets
-import webservices
+from directions import webservices
 
 
 

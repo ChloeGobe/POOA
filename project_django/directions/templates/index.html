@@ -1,51 +1,122 @@
+
 <!DOCTYPE html>
 <html >
 <head>
-<title>CityWalker | Find your way in Paris for free</title>
+<title>Bitly | URL Shortener and Link Management Platform</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta name="referrer" content="always">
+<meta name="keywords" content="bitly, awesome, save, share, shorten" />
+<meta name="description" content="Get the most out of your social and online marketing efforts. Own, understand and activate your best audience through the power of the link with Bitly Enterprise." />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" type="image/png" href="//dl6fh5ptkejqa.cloudfront.net/0482a3c938673192a591f2845b9eb275.png" />
+<link href="//d1ayxb9ooonjts.cloudfront.net/d435c925026ca4e33484eb277dbafe8b.css" rel="stylesheet" type="text/css">
 
+</head>
 <body class="">
+<div class="stage">
+
+
+<header id="header" data-template="stage-header">
+</header>
+
+
+<div id="container" class="clearfix">
+
 
 <div class="container container-pod shorten-container">
-  <h1 class="page-title t-center">Centrale Mapper</h1>
-  <div class="join-bitly t-center">Where do we go today ?</div>
+<h1 class="page-title t-center">OPTIMIZE YOUR DAY</h1>
+<div class="join-bitly t-center">Travel with Centrale Mapper</div>
 
 
-  <div id="form_container" class="t-center mid-container foot-room">
+<div id="form_container" class="t-center mid-container foot-room">
+
+<form name="shortenUrl" id="unAuthShortenForm" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
+
+  <fieldset class="cf">
+  {% csrf_token %}
+
+  <div class="form-group">
+
+    <label class="control-label col-sm-2" for="email">Départ</label>
+    <div class="col-sm-10">
+      <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="email" placeholder="Depart">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Arrivée</label>
+    <div class="col-sm-10">
+      <input type="text" value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control" id="pwd" placeholder="Arrivee">
+
+    </div>
 
   </div>
-</div>
+  <button id="shorten_btn" type="submit" class="button button-primary button-large shorten-button"  type="submit" type="submit" value="Let's go!"/> Let's go ! </button>
 
-  <form class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
-    <fieldset class="cf">
-    {% csrf_token %}
-
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Départ</label>
-      <div class="col-sm-10">
-        <input value= "{{ current_place }}" name="depart" type="text" class="form-control" id="email" placeholder="Depart">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Arrivée</label>
-      <div class="col-sm-10">
-        <input type="text" value="{{ futur_place }}"  name="arrivee" class="form-control" id="pwd" placeholder="Arrivee">
-        <button type="submit" type="submit" class="col-sm-10 btn btn-primary btn-lg" value="Let's go!"/> Let's go ! </button>
-
-      </div>
-
-    </div>
-
-  </fieldset>
+</fieldset>
 
 
 
 </form>
 
+
+</div>
+
+</div>
+
+<div id="bottom">
+
+<form action="" method="get">
+<input type="hidden" name="_xsrf" value="7c59de274f3548fdae0a92be144895bf"/>
+</form>
+
+</div>
+</div>
+
+
+
+
+
+<div class="container clearfix">
+
+
+
 <footer id="footer" role="contentinfo" data-template="stage-footer">
+<section class="stage-pod">
+<div class="container container-pod t-center">
+<div class="footer-links">
+<ul id="menu-footer-menu" class="nav footer-nav clearfix">
+<li><a href="http://blog.bitly.com/">Site des études</a></li>
+
+
+</ul>
+</div>
+<div class="footer-attribution">
+<a href="../../" class="footer-logo"></a>
+
+</section>
 </footer>
+
+<!-- Promo -->
+
+
+
+</div>
+
+<div id="stage-sidebar">
+<div id="stage-sidebar-scrollable" class="container-scrollable ps-container">
+<div class="container container-pod container-pod-short">
+<ul id="menu-mobile-menu" class="nav top-nav clearfix">
+<li><a href="/">Linkedin</a></li>
+<li><a href="/pages/tour">Facebook</a></li>
+
+</ul>
+</div>
+</div>
+</div>
+
+
+
 
 </body>
 </html>

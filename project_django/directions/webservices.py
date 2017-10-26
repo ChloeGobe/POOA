@@ -9,7 +9,6 @@ GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
-
 class GoogleClass:
     """Definit les differents services internet de Google qui vont etre necessaires"""
 

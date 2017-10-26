@@ -1,0 +1,4 @@
+
+*.pyc
+project_django/directions/__pycache__/views.cpython-36.pyc
+.idea/workspace.xml

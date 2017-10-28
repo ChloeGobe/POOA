@@ -47,7 +47,7 @@ class GoogleClass:
 
     def get_etapes(self):
         """Obtenir les directions du trajet"""
-        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
+        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
 
         resp = self.communication(url)
 

@@ -19,14 +19,17 @@ def results(request):
     if request.method == 'POST':
         content = json.dumps(request.POST)
         content = json.loads(content)
-        depart = "123 rue Saint Jacques Paris"
-        arrivee = "5 avenue de paris Boulogne"
+
         depart = content['depart']
         arrivee = content['arrivee']
+        if len(depart)==0 or len(arrivee)==0:
+            depart = "123 rue de Tolbiac"
+            arrivee = "10 rue de Tolbiac"
         depart =str(depart)
         arrivee = str(arrivee)
         print(depart)
         print(arrivee)
+
         # Gestion de la pluie en A
         weather = WeatherClass(depart)
         #bad_conditions = weather.does_it_rain()
@@ -40,15 +43,19 @@ def results(request):
         trajets += [trajet_a_pied, trajet_velib]
 
         trajet_min = trajet_autolib
-
+        mock_trajet = {
+                "duration": datetime.timedelta(minutes=15),
+                "etapes" : []
+            }
         for i in trajets:
             if i.temps_trajet < trajet_min.temps_trajet:
                 trajet_min = i
 
-        nomTrajet = trajet_min.__class__.__name__
-        print("Le meilleur trajet est " + trajet_min.__class__.__name__ + " avec un temps de " + str(trajet_min.temps_trajet))
-        print("Etapes a suivre:\n")
-        for elem in trajet_min.etapes_iti:
-            print(elem)
+        nom_trajet = trajet_min.__class__.__name__
+        etapes_trajet = trajet_min.etapes_iti
+        duree_trajet = trajet_min.temps_trajet
+        resultat ={'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)}
+        print(resultat)
+        print(type(resultat['etapes']))
 
-        return render(request, 'results.html', {'trajet_min': trajet_min})
+        return render(request, 'results.html', {'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})

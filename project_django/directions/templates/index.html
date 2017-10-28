@@ -1,88 +1,30 @@
-
-<!DOCTYPE html>
 <html >
   <head>
   <title>Centrale Mapper | Optimize your day</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link href="//d1ayxb9ooonjts.cloudfront.net/d435c925026ca4e33484eb277dbafe8b.css" rel="stylesheet" type="text/css">
-  <style>
-  /* Center the loader */
-  #loader {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 1;
-    width: 150px;
-    height: 150px;
-    margin: -75px 0 0 -75px;
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #3498db;
-    width: 120px;
-    height: 120px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
-  }
-
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Add animation to "page content" */
-  .animate-bottom {
-    position: relative;
-    -webkit-animation-name: animatebottom;
-    -webkit-animation-duration: 1s;
-    animation-name: animatebottom;
-    animation-duration: 1s
-  }
-
-  @-webkit-keyframes animatebottom {
-    from { bottom:-100px; opacity:0 }
-    to { bottom:0px; opacity:1 }
-  }
-
-  @keyframes animatebottom {
-    from{ bottom:-100px; opacity:0 }
-    to{ bottom:0; opacity:1 }
-  }
-
-  #myDiv {
-    display: none;
-    text-align: center;
-  }
-  </style>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
   </head>
-
+  <script>
+  function waitingAnimation() {
+    console.log("hello")
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("form_container").style.display = "none";
+  }
+  </script>
 <body class="">
 <div class="stage">
-
 <header id="header" data-template="stage-header">
 </header>
-
-
 <div id="container" class="clearfix">
-
-
 <div class="container container-pod shorten-container">
-<h1 class="page-title t-center">OPTIMIZE YOUR DAY</h1>
-<div class="join-bitly t-center">Travel with Centrale Mapper</div>
-
-<div style="display:block;" id="form_container" class="t-center mid-container foot-room">
-
+<h1 class="page-title t-center">Travel with Centrale Mapper</h1>
+<div class="join-bitly t-center">Where do we lead you today ?</div>
+<div style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Merci de patienter pendant que nous traitons votre demande...</div>
+<div style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
 <form name="shortenUrl" id="unAuthShortenForm" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
-
   <fieldset class="cf">
   {% csrf_token %}
-
   <div class="form-group">
-
     <label class="control-label col-sm-2" for="email">Départ</label>
     <div class="col-sm-10">
       <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="email" placeholder="Depart">
@@ -92,63 +34,32 @@
     <label class="control-label col-sm-2" for="pwd">Arrivée</label>
     <div class="col-sm-10">
       <input type="text" value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control" id="pwd" placeholder="Arrivee">
-
     </div>
-
   </div>
-
 <div onclick="waitingAnimation()">
-
-  <input  id="shorten_btn" type="submit" class="button button-primary button-large" type="submit" value="Let's go!"/>
-
+  <input style="margin-top:15%;" onclick="waitingAnimation()" id="shorten_btn" type="submit" class="button button-primary button-large" value="Let's go!"/>
 </div>
 </fieldset>
 </form>
 </div>
 </div>
 </div>
-
-<div style="display:none;" class="animate-bottom" id="loader"></div>
-<script>
-
-function waitingAnimation() {
-  console.log("hello")
-  document.getElementById("loader").style.display = "block";
-  document.getElementById("form_container").style.display = "none";
-
-}
-</script>
-
-
 </div>
-
-
-
-
-
 <div class="container clearfix">
-
-
-
 <footer id="footer" role="contentinfo" data-template="stage-footer">
 <section class="stage-pod">
 <div class="container container-pod t-center">
 <div class="footer-links">
 <ul id="menu-footer-menu" class="nav footer-nav clearfix">
-<li><a href="http://www.facebook.com">Site des études</a></li>
-
-
+<li><a href="http://cours.etudes.ecp.fr">Site des études</a></li>
 </ul>
 </div>
-
-
 <div id="stage-sidebar">
 <div id="stage-sidebar-scrollable" class="container-scrollable ps-container">
 <div class="container container-pod container-pod-short">
 <ul id="menu-mobile-menu" class="nav top-nav clearfix">
 <li><a href="/">Linkedin</a></li>
 <li><a href="/pages/tour">Facebook</a></li>
-
 </ul>
 </div>
 </div>

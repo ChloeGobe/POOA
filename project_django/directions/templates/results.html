@@ -1,25 +1,17 @@
-<!DOCTYPE html>
 <html >
-<head>
-<title>Bitly | URL Shortener and Link Management Platform</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
-<meta name="referrer" content="always">
-<meta name="keywords" content="bitly, awesome, save, share, shorten" />
-<meta name="description" content="Get the most out of your social and online marketing efforts. Own, understand and activate your best audience through the power of the link with Bitly Enterprise." />
-<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link rel="icon" type="image/png" href="//dl6fh5ptkejqa.cloudfront.net/0482a3c938673192a591f2845b9eb275.png" />
-<link href="//d1ayxb9ooonjts.cloudfront.net/d435c925026ca4e33484eb277dbafe8b.css" rel="stylesheet" type="text/css">
-
-</head>
-
-<body class="">
-
-</body>
-<div>
-  Le meilleur trajet est avec un temps de {{trajet_min.temps_trajet}}
-</div>
-<div>
-{{trajet_min.etapes_iti}}
-</div>
+  <head>
+    <title>Centrale Mapper | Optimize your day</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+  </head>
+  <body class="">
+    <header id="header" data-template="stage-header">
+      <div style="font-size:100px; color:red; margin-top:100px; margin-left:40%;position:absolute;"> {{ duree }}</div>
+    </header>
+    <div style="color:black; margin-top:300px; margin-left:20%;position:absolute;">
+      {% for elem in etapes %}
+          <p>{{ elem }}</p>
+      {% endfor %}
+    </div>
+  </body>
 </html>

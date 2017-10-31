@@ -16,7 +16,7 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 	- Mettre en place des 2eme chance utilisateurs avec des messages
 	
 2. **Design page de resultat** : Eymard
-	- Mise en forme de la page de résultat
+	- Mise en forme de la page de résultat : Pluie ou non, et Moyen de transport
 	- Faire une page de chargement
 
 3. **Verification de la cohérence de ce que l'on obtient**

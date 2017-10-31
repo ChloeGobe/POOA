@@ -1,6 +1,7 @@
-# Django et Python n'importent pas de la même façon les modules.
-# Il faut donc différencier deux façons d'importer, une qui servira au lancement de Django
+# Django et Python n'importent pas de la meme facon les modules.
+# Il faut donc differencier deux facons d'importer, une qui servira au lancement de Django
 # Et une autre pour l'execution des fichiers Python
+
 try:
     from directions import webservices
 except ModuleNotFoundError:

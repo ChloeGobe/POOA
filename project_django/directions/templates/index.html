@@ -21,21 +21,29 @@
 <div class="join-bitly t-center">Where do we lead you today ?</div>
 <div style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Merci de patienter pendant que nous traitons votre demande...</div>
 <div style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
+
 <form name="shortenUrl" id="unAuthShortenForm" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
   <fieldset class="cf">
   {% csrf_token %}
   <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Départ</label>
+    <label class="control-label col-sm-2">Départ</label>
     <div class="col-sm-10">
       <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="email" placeholder="Depart">
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-sm-2" for="pwd">Arrivée</label>
+    <label class="control-label col-sm-2">Arrivée</label>
     <div class="col-sm-10">
-      <input type="text" value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control" id="pwd" placeholder="Arrivee">
+      <input type="text" value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control"  placeholder="Arrivee">
     </div>
   </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">Conditions de voyage</label>
+    <div class="col-sm-10">
+      <input type="checkbox" value="{{isloaded}}" name="isloaded" class="form-control"> Je suis chargé
+    </div>
+  </div>
+
 <div onclick="waitingAnimation()">
   <input style="margin-top:15%;" onclick="waitingAnimation()" id="shorten_btn" type="submit" class="button button-primary button-large" value="Let's go!"/>
 </div>
@@ -64,9 +72,5 @@
 </div>
 </div>
 </div>
-
-
-
-
 </body>
 </html>

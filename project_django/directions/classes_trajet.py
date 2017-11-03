@@ -14,10 +14,16 @@ import datetime
 class Trajet:
 
     """Definit la classe trajet generale Trajet.
-       Chaque trajet peut-etre decoupe en trois parties
-                - le trajet a pied quand on quitte le lieu de depart
-                - un trajet specifique au mode de transport : velo pour le velib, la voiture pour l'Autolib, etc..
-                - le trajet a pied jusqu'au point d'arrivee"""
+
+       Chaque trajet peut-etre decoupe en trois parties :
+
+                1. le trajet a pied quand on quitte le lieu de depart
+
+                2. un trajet specifique au mode de transport : velo pour le velib, la voiture pour l'Autolib, etc..
+                    Ce trajet sera entre une station de depart et une station d'arrivée qui seront le lieu de départ
+                    le lieu d'arrivee pour les trajets pietons et en métro
+
+                3. le trajet a pied jusqu'au point d'arrivee"""
 
 
     def __init__(self, lieu_depart, lieu_arrivee):
@@ -27,7 +33,7 @@ class Trajet:
 
     def get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self.lieu_depart, self.lieu_arrivee, self.mode)
+        web_services = webservices.GoogleClass(self.station_depart, self.station_arrivee, self.mode)
 
         # Resume dans un dictionnaire les differentes etapes du trajet et son temps rotal
         dic = {
@@ -39,19 +45,21 @@ class Trajet:
 
     def get_trajet_total(self):
         """Somme les differents bouts de trajet pour completer l'objet trajet"""
+
+
         etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
         etapeB = self.get_trajet_specifique()
         etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
 
-        if etapeA['duration'] < datetime.timedelta(minutes=1):
-            etapeA["etapes"] = ''
+        if etapeA['duration'] < datetime.timedelta(minutes=1) or len(etapeA["etapes"]) < 2:
+            etapeA["etapes"] = ['']
 
-        if etapeC['duration'] < datetime.timedelta(minutes=1):
-            etapeC["etapes"] = ''
+        if etapeC['duration'] < datetime.timedelta(minutes=1) or len(etapeC["etapes"]) < 2:
+            etapeC["etapes"] = ['']
 
         summary = {
             "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
-            "etapes" : etapeA["etapes"] + ["\n\n\n"] + etapeB["etapes"] + ["\n\n\n"] + etapeC["etapes"]
+            "etapes" : ["\nEtape piétonne A :\n"] + etapeA["etapes"] + ["\nEtape Intermediaire\n"] + etapeB["etapes"] + ["\nEtape piétonne finale\n"] + etapeC["etapes"]
         }
         return summary
 
@@ -65,11 +73,6 @@ class Trajet:
 
 
 
-
-
-
-
-
 class Pieton(Trajet):
     """Definit les trajets a pied, utilisee pour un trajet a pied mais aussi pour des portions de trajet
     realise avec un moyen de transport. Seules les stations de depart sont apportees par rapport a la classe mere."""
@@ -79,7 +82,6 @@ class Pieton(Trajet):
         self.station_arrivee = lieu_arrivee
         self.mode = "walking"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
-
 
 
 
@@ -113,8 +115,8 @@ class Location(Trajet):
 
         # Perimetre autour dans lequel on souhaite trouver nos stations
         radius = 5000
-        web_services_velib = webservices.OpendataParisClass()
-        resp = web_services_velib.call_opendata(lat, lng, radius, self.dataset)
+        web_services_loc = webservices.OpendataParisClass()
+        resp = web_services_loc.call_opendata(lat, lng, radius, self.dataset)
 
         # Recupere l'adresse et l'identifiant de la station la plus proche
         closest_station_address, closest_station_name = self.get_info_station(resp)
@@ -178,11 +180,24 @@ class Autolib(Location):
 
 
 if __name__ == '__main__':
-    depart = "123 rue Saint Jacques, Paris"
-    arrivee = "Rue Gay Lussac"
-    test = Velib(arrivee, depart)
-    #print(test.station_depart)
-    #print(test.station_arrivee)
-    #print(test.temps_trajet)
-    for i in test.etapes_iti:
-        print(i)
+    depart = "Hotel de Ville, Paris"
+    arrivee = "32 rue de passy, Paris"
+    trajet_metro = Metro(depart, arrivee)
+    trajet_autolib = Autolib(depart, arrivee)
+    trajet_a_pied = Pieton(depart, arrivee)
+    trajet_velib = Velib(depart, arrivee)
+
+    trajets = [trajet_autolib, trajet_metro, trajet_velib, trajet_a_pied]
+
+
+    trajet_min = trajet_autolib
+
+    for i in trajets:
+        if i.temps_trajet < trajet_min.temps_trajet:
+            trajet_min = i
+
+    print(
+        "Le meilleur trajet est " + trajet_min.__class__.__name__ + " avec un temps de " + str(trajet_min.temps_trajet))
+    print("Etapes a suivre:")
+    for elem in trajet_min.etapes_iti:
+        print(elem)

@@ -34,39 +34,39 @@ def results(request):
         print(depart)
         print(arrivee)
 
-        try:
-            # Gestion de la pluie en A
-            weather = WeatherClass(depart)
-            #bad_conditions = weather.does_it_rain()
+       # try:
+        # Gestion de la pluie en A
+        weather = WeatherClass(depart)
+        #bad_conditions = weather.does_it_rain()
 
-            trajet_metro = Metro(depart, arrivee)
-            trajet_autolib = Autolib(depart, arrivee)
-            trajets = [trajet_metro, trajet_autolib]
+        trajet_metro = Metro(depart, arrivee)
+        trajet_autolib = Autolib(depart, arrivee)
+        trajets = [trajet_metro, trajet_autolib]
 
-            #if not bad_conditions:
-            trajet_a_pied = Pieton(depart, arrivee)
-            trajets += [trajet_a_pied]
+        #if not bad_conditions:
+        trajet_a_pied = Pieton(depart, arrivee)
+        trajets += [trajet_a_pied]
 
-            if isloaded:
-                trajet_velib = Velib(depart, arrivee)
-                trajets += [trajet_velib]
+        if isloaded:
+            trajet_velib = Velib(depart, arrivee)
+            trajets += [trajet_velib]
 
-            trajet_min = trajet_autolib
-            for i in trajets:
-                if i.temps_trajet < trajet_min.temps_trajet:
-                    trajet_min = i
+        trajet_min = trajet_autolib
+        for i in trajets:
+            if i.temps_trajet < trajet_min.temps_trajet:
+                trajet_min = i
 
-            nom_trajet = trajet_min.__class__.__name__
-            etapes_trajet = trajet_min.etapes_iti
-            duree_trajet = trajet_min.temps_trajet
-            #resultat ={'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)}
-            #print(resultat)
-            #print(type(resultat['etapes']))
+        nom_trajet = trajet_min.__class__.__name__
+        etapes_trajet = trajet_min.etapes_iti
+        duree_trajet = trajet_min.temps_trajet
+        #resultat ={'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)}
+        #print(resultat)
+        #print(type(resultat['etapes']))
 
-        except: # pour le dev quand on n a pas de connection internet
-            nom_trajet="mock_trajet"
-            etapes_trajet=["drive to A","Walk to B","Well done you did it"]
-            duree_trajet=str(datetime.timedelta(minutes=15))
-            print(nom_trajet)
+        #except: # pour le dev quand on n a pas de connection internet
+         #   nom_trajet="mock_trajet"
+          #  etapes_trajet=["drive to A","Walk to B","Well done you did it"]
+           # duree_trajet=str(datetime.timedelta(minutes=15))
+            #print(nom_trajet)"
 
         return render(request, 'results.html', {'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})

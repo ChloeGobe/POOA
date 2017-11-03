@@ -1,4 +1,3 @@
-# Webservices projet POOA
 
 from requests import get, HTTPError
 from re import sub
@@ -18,6 +17,7 @@ except ModuleNotFoundError:
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
+
 
 class GoogleClass:
     """Definit les differents services internet de Google qui vont etre necessaires"""
@@ -112,20 +112,22 @@ class GoogleClass:
 
     def get_latlong(self,address):
         """Transforme une adresse pour la convertir en coordonnees de geolocalisation"""
+
         address.replace(" ", "+")
         url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="+GOOGLE_KEY
         resp = self.communication(url)
         result = resp.json()
 
+        # Si aucun  resultat n'est trouve par Google, il ne renverra pas de resultat, ce qu'il faudra signaler.
         if len(result.get('results')) == 0:
             raise definition_exceptions.AdresseNonComprise("Google ne trouve pas l'adresse")
+
 
         coord = result.get('results')[0].get('geometry').get('location')
 
         # Verifie que les coordonnées du lieu designent bien un lieu dans Paris
         if coord['lng'] < 2.22 or coord['lng'] > 2.44:
             raise  definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
-
         if coord['lat'] < 48.81 or coord['lat'] > 48.91 :
             raise definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
 

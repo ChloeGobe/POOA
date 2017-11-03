@@ -1,7 +1,6 @@
 # Django et Python n'importent pas de la meme facon les modules.
 # Il faut donc differencier deux facons d'importer, une qui servira au lancement de Django
 # Et une autre pour l'execution des fichiers Python
-
 try:
     from directions import webservices
 except ModuleNotFoundError:
@@ -35,22 +34,28 @@ class Trajet:
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
         web_services = webservices.GoogleClass(self.station_depart, self.station_arrivee, self.mode)
 
-        # Resume dans un dictionnaire les differentes etapes du trajet et son temps rotal
-        dic = {
+        # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
+        summary = {
             'duration': web_services.get_time(),
             "etapes": web_services.get_etapes(),
         }
-        return dic
+        return summary
 
 
     def get_trajet_total(self):
-        """Somme les differents bouts de trajet pour completer l'objet trajet"""
+        """Somme les differents bouts de trajet pour completer l'objet trajet avec le temps de trajet total et les etapes"""
 
-
+        # 1ere etape : se rendre à une station de depart s'il y en a une (sinon station_depart est le lieu de depart)
         etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
+
+        # 2eme etape : faire le trajet spécifique : vélo, auto, ...
         etapeB = self.get_trajet_specifique()
+
+        # 3eme etape : se rendre à la station d'arrivee s'il y en a une (sinon station_arrivee est le lieu d'arrivee)
         etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
 
+        # Si l'étape piétonne est trop brève (la station est proche), nul besoin de la compter,
+        # elle sera reprise dans une autre etape par Google maps
         if etapeA['duration'] < datetime.timedelta(minutes=1) or len(etapeA["etapes"]) < 2:
             etapeA["etapes"] = ['']
 
@@ -58,10 +63,17 @@ class Trajet:
             etapeC["etapes"] = ['']
 
         summary = {
-            "duration": etapeA["duration"] + etapeB["duration"] + etapeC["duration"],
-            "etapes" : ["\nEtape piétonne A :\n"] + etapeA["etapes"] + ["\nEtape Intermediaire\n"] + etapeB["etapes"] + ["\nEtape piétonne finale\n"] + etapeC["etapes"]
+            "duration": etapeA["duration"] +
+                        etapeB["duration"] +
+                        etapeC["duration"]
+            ,
+            # Les precisions des differentes etapes pourront être enlevees après l'etape de developement
+            "etapes" : ["\nEtape piétonne A :\n"] + etapeA["etapes"] +
+                       ["\nEtape Intermediaire\n"] + etapeB["etapes"] +
+                       ["\nEtape piétonne finale\n"] + etapeC["etapes"]
         }
         return summary
+
 
     @property
     def etapes_iti(self):
@@ -74,8 +86,8 @@ class Trajet:
 
 
 class Pieton(Trajet):
-    """Definit les trajets a pied, utilisee pour un trajet a pied mais aussi pour des portions de trajet
-    realise avec un moyen de transport. Seules les stations de depart sont apportees par rapport a la classe mere."""
+    """Definit les trajets a pied.
+    La classe est utilisee pour un trajet a pied mais aussi pour des portions de trajet realises avec un moyen de transport different."""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self.station_depart = lieu_depart
@@ -86,8 +98,9 @@ class Pieton(Trajet):
 
 
 class Metro(Trajet):
-    """Definit les trajets en metro, Google Maps calcule le trajet dans son ensemble, marche a pied comprise, donc
-    le trajet en metro est considere comme etant en une unique partie"""
+    """Definit les trajets en metro.
+    Google Maps calcule le trajet dans son ensemble, marche a pied comprise.
+    Le trajet en metro est considere comme etant en une seule partie"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self.station_depart = lieu_depart
@@ -98,7 +111,9 @@ class Metro(Trajet):
 
 
 class Location(Trajet):
-    """Rassemble les locations de moyens de transport proposes par la Ville de Paris. Le trajet est en trois parties"""
+    """Rassemble les locations de moyens de transport proposes par la Ville de Paris.
+    Le trajet est en trois parties pour les trajets de cette classe"""
+
     def __init__(self,lieu_depart, lieu_arrivee):
         self.station_depart = self.get_closest_station(lieu_depart)
         self.station_arrivee = self.get_closest_station(lieu_arrivee)
@@ -146,9 +161,10 @@ class Velib(Location):
 
         adresse = reponse_webservices.get("records")[i].get("fields").get("address")
         adresse = adresse.encode('utf8')
+
         name = reponse_webservices.get("records")[i].get("fields").get("name")
 
-        # Decode les informations si des bytes sont renvoyes pour eviter de les transmettre a l'API Google
+        # Decode les informations si des bit sont renvoyes pour eviter de les transmettre a l'API Google
         if isinstance(adresse, bytes):
             adresse = adresse.decode()
         if isinstance(name, bytes):
@@ -168,6 +184,7 @@ class Autolib(Location):
 
     def get_info_station(self, reponse_webservices):
         """Recupere et selectionne les infos renvoyees par l'API pour les Autolibs"""
+
         adresse = reponse_webservices.get("records")[0].get("fields").get("adresse")
         name = reponse_webservices.get("records")[0].get("fields").get("id_autolib")
 
@@ -181,16 +198,16 @@ class Autolib(Location):
 
 if __name__ == '__main__':
     depart = "La Fourche, Paris"
-    arrivee = "Rue Verrier, Orsay"
-    trajet_metro = Metro(depart, arrivee)
-    trajet_autolib = Autolib(depart, arrivee)
+    arrivee = "Luxembourg, Paris"
+    #trajet_metro = Metro(depart, arrivee)
+    #trajet_autolib = Autolib(depart, arrivee)
     trajet_a_pied = Pieton(depart, arrivee)
-    trajet_velib = Velib(depart, arrivee)
+    #trajet_velib = Velib(depart, arrivee)
 
-    trajets = [trajet_autolib, trajet_metro, trajet_velib, trajet_a_pied]
+    #trajets = [trajet_autolib, trajet_metro, trajet_velib, trajet_a_pied]
 
 
-    trajet_min = trajet_autolib
+    """trajet_min = trajet_autolib
 
     for i in trajets:
         if i.temps_trajet < trajet_min.temps_trajet:
@@ -198,6 +215,6 @@ if __name__ == '__main__':
 
     print(
         "Le meilleur trajet est " + trajet_min.__class__.__name__ + " avec un temps de " + str(trajet_min.temps_trajet))
-    print("Etapes a suivre:")
-    for elem in trajet_min.etapes_iti:
+    print("Etapes a suivre:")"""
+    for elem in trajet_a_pied.etapes_iti:
         print(elem)

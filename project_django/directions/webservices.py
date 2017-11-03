@@ -45,6 +45,7 @@ class GoogleClass:
         resp = get(url)
         return resp
 
+
     def get_etapes(self):
         """Obtenir les directions du trajet"""
         url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
@@ -58,17 +59,15 @@ class GoogleClass:
 
         # Nettoie les directions de caracteres speciaux
         expression = r'<[^>]*>'
-        try:
-            directions = [element.get('html_instructions') for element in result.get('routes')[0].get('legs')[0].get('steps')]
-            directions_propres = [sub(expression,"",element) for element in directions]
-        except:
-            directions_propres=["empty"]
+        directions = [element.get('html_instructions') for element in result.get('routes')[0].get('legs')[0].get('steps')]
+        directions_propres = [sub(expression,"",element) for element in directions]
         return directions_propres
+
 
     def get_time(self):
         """Obtenir le temps de trajet"""
 
-        #Retrieve the get
+        # Retrieve the get
         url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
         resp = self.communication(url)
 
@@ -78,21 +77,38 @@ class GoogleClass:
 
         # Transforme le contenu en JSON
         result = resp.json()
-        try:
-            temps = result.get('routes')[0].get('legs')[0].get('duration').get('text')
-        except:
-            temps = "7 days"
+        temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')
+
         # Convertir le temps obtenu qui est sous forme de texte en elements utilisables
-        try:
-            hour, minute = temps.split("hour")
-            minute = minute.split(" ")
-            minute = minute[1]
-        except:
+        temps = temps_text.split(" ")
+
+        # Commençons par les jours
+        if "days" in temps:
+            day = temps[temps.index("days") -1]
+        elif "day" in temps:
+            day = temps[temps.index("day") -1]
+        else:
+            day=0
+
+        # Puis les heures
+        if "hours" in temps:
+            hour = temps[temps.index("hours") - 1]
+        elif "hour" in temps:
+            hour = temps[temps.index("hour") - 1]
+        else:
             hour = 0
-            minute = temps.split(" ")
-            minute = minute[0]
-        time = datetime.timedelta(minutes= int(minute), hours=int(hour))
+
+        # Puis les minutes
+        if "mins" in temps:
+            minute = temps[temps.index("mins") - 1]
+        elif "min" in temps:
+            minute = temps[temps.index("min") - 1]
+        else:
+            minute = 0
+
+        time = datetime.timedelta(minutes= int(minute), hours=int(hour), days=int(day))
         return time
+
 
     def get_latlong(self,address):
         """Transforme une adresse pour la convertir en coordonnees de geolocalisation"""
@@ -105,6 +121,8 @@ class GoogleClass:
             raise gestionnaire_erreurs.AdresseNonComprise("Google ne trouve pas l'adresse")
 
         coord = result.get('results')[0].get('geometry').get('location')
+
+        
         return (coord['lat'], coord['lng'])
 
 
@@ -137,8 +155,3 @@ class OpendataParisClass:
         reponse = resp.json()
         return reponse
 
-
-
-if __name__ == '__main__':
-    test = GoogleClass("ZKFJHBDN","rue saint jacques","TRANSIT")
-    etapes = test.get_latlong(test.departure)

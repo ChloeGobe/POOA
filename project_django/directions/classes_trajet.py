@@ -180,8 +180,8 @@ class Autolib(Location):
 
 
 if __name__ == '__main__':
-    depart = "Hotel de Ville, Paris"
-    arrivee = "32 rue de passy, Paris"
+    depart = "La Fourche, Paris"
+    arrivee = "Rue Verrier, Orsay"
     trajet_metro = Metro(depart, arrivee)
     trajet_autolib = Autolib(depart, arrivee)
     trajet_a_pied = Pieton(depart, arrivee)

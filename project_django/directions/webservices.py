@@ -9,9 +9,9 @@ import datetime
 # Il faut donc differencier deux facons d'importer, une qui servira au lancement de Django
 # Et une autre pour l'execution des fichiers Python
 try:
-    from directions import gestionnaire_erreurs
+    from directions import definition_exceptions
 except ModuleNotFoundError:
-    import gestionnaire_erreurs
+    import definition_exceptions
 
 
 # Liste des cles d'API necessaires a leur fonctionnement
@@ -118,11 +118,17 @@ class GoogleClass:
         result = resp.json()
 
         if len(result.get('results')) == 0:
-            raise gestionnaire_erreurs.AdresseNonComprise("Google ne trouve pas l'adresse")
+            raise definition_exceptions.AdresseNonComprise("Google ne trouve pas l'adresse")
 
         coord = result.get('results')[0].get('geometry').get('location')
 
-        
+        # Verifie que les coordonnées du lieu designent bien un lieu dans Paris
+        if coord['lng'] < 2.22 or coord['lng'] > 2.44:
+            raise  definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
+
+        if coord['lat'] < 48.81 or coord['lat'] > 48.91 :
+            raise definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
+
         return (coord['lat'], coord['lng'])
 
 

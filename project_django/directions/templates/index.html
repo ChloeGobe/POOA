@@ -3,8 +3,17 @@
   <title>Centrale Mapper | Optimize your day</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   </head>
   <script>
+  $('#centrale_mapper_form').submit(function(ev) {
+      alert("HEllo")
+      ev.preventDefault(); // to stop the form from submitting
+      console.log("HELLO")
+      this.submit(); // If all the validations succeeded
+  });
+
   function waitingAnimation() {
     console.log("hello")
     document.getElementById("loader").style.display = "block";
@@ -23,7 +32,7 @@
 <div style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Merci de patienter pendant que nous traitons votre demande...</div>
 <div style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
 
-<form name="shortenUrl" id="unAuthShortenForm" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl" id="unAuthShortenForm">
+<form id="centrale_mapper_form" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl">
   <fieldset class="cf">
   {% csrf_token %}
   <div class="form-group">
@@ -45,8 +54,8 @@
     </div>
   </div>
 
-<div onsubmit="waitingAnimation()">
-  <button style="margin-top:15%;" onsubmit="waitingAnimation()" id="shorten_btn" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
+<div>
+  <button style="margin-top:15%;" id="submit_button" type="submit" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
 </div>
 </fieldset>
 </form>

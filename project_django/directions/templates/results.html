@@ -3,6 +3,8 @@
     <title>Centrale Mapper | Optimize your day</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   </head>
   <body>
 
@@ -21,22 +23,21 @@
         <div style="font-size:15px; color:red; margin-left:20%;"> Moyen de transport le plus rapide: {{moyen}} </div>
 
         <div style="font-size:15px; color:red; margin-left:20%;"> La météo est mauvaise, nous avons adapté votre itinéraire</div>
+        <button onClick="window.location.href='index'" id="new_planificateur" style="margin-left:20%;" class="button button-primary button-large"> Planifier un nouveau trajet </button>
 
-        <button onclick="voirEtapes()" class="button button-primary button-large" > Voir les étapes </button>
+        <button onclick="voirEtapes()" style="margin-left:20%;" class="button button-primary button-large" > Voir les étapes </button>
 
         <div id="etapesliste" style="display:none; color:black; margin-left:20%;">
           {% for elem in etapes %}
               <p>{{ elem }}</p>
           {% endfor %}
         </div>
-        <button id="shorten_btn" type="submit" class="button button-primary button-large"> Planifier un nouveau trajet </button>
 
     </div>
   </body>
 
   <script>
   function voirEtapes() {
-    console.log("hello2")
     document.getElementById("etapesliste").style.display = "block";
   }
   </script>

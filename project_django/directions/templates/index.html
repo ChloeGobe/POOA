@@ -10,6 +10,7 @@
     document.getElementById("loader").style.display = "block";
     document.getElementById("form_container").style.display = "none";
   }
+
   </script>
 <body class="">
 <div class="stage">
@@ -40,12 +41,12 @@
   <div class="form-group">
     <label class="control-label col-sm-2">Conditions de voyage</label>
     <div class="col-sm-10">
-      <input type="checkbox" value="{{isloaded}}" name="isloaded" class="form-control"> Je suis chargé
+      <input type="checkbox" value="{{loaded}}" name="loaded" class="form-control"> Je suis chargé
     </div>
   </div>
 
-<div onclick="waitingAnimation()">
-  <input style="margin-top:15%;" onclick="waitingAnimation()" id="shorten_btn" type="submit" class="button button-primary button-large" value="Let's go!"/>
+<div onsubmit="waitingAnimation()">
+  <button style="margin-top:15%;" onsubmit="waitingAnimation()" id="shorten_btn" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
 </div>
 </fieldset>
 </form>

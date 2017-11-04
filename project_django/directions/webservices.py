@@ -142,14 +142,18 @@ class WeatherClass:
     def does_it_rain(self):
         """Permet de savoir si les conditions meteos sont bonnes"""
         url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",uk&APPID="+WEATHER_KEY
-        resp = get(url).json()
-        meteo = resp.get('weather')[0].get('description')
-        bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
+        try:
+            resp = get(url).json()
+            meteo = resp.get('weather')[0].get('description')
+            weather_call_worked=True
+        except:
+            weather_call_worked = False
 
-        if meteo in bad_conditions:
+        bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
+        if meteo in bad_conditions and weather_call_worked==True:
             return True
         else:
-            return False
+            return True
 
 
 class OpendataParisClass:
@@ -162,4 +166,3 @@ class OpendataParisClass:
         resp = get(url)
         reponse = resp.json()
         return reponse
-

@@ -4,14 +4,43 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
   </head>
-  <body class="">
-    <header id="header" data-template="stage-header">
-      <div style="font-size:100px; color:red; margin-top:100px; margin-left:40%;position:absolute;"> {{ duree }}</div>
-    </header>
-    <div style="color:black; margin-top:300px; margin-left:20%;position:absolute;">
-      {% for elem in etapes %}
-          <p>{{ elem }}</p>
-      {% endfor %}
+  <body>
+
+    {% if bad_conditions %}
+      <header id="headerbadconditions" data-template="stage-header">
+        <div style="font-size:100px; color:red; margin-top:100px; margin-left:40%;position:absolute;"> {{ duree }}</div>
+      </header>
+    {% else %}
+      <header id="header" data-template="stage-header">
+        <div style="font-size:100px; color:red; margin-top:100px; margin-left:40%;position:absolute;"> {{ duree }}</div>
+      </header>
+    {% endif %}
+
+
+    <div style="margin-top:30%;">
+        <div style="font-size:15px; color:red; margin-left:20%;"> Moyen de transport le plus rapide: {{moyen}} </div>
+
+        <div style="font-size:15px; color:red; margin-left:20%;"> La météo est mauvaise, nous avons adapté votre itinéraire</div>
+
+        <button onclick="voirEtapes()" class="button button-primary button-large" > Voir les étapes </button>
+
+        <div id="etapesliste" style="display:none; color:black; margin-left:20%;">
+          {% for elem in etapes %}
+              <p>{{ elem }}</p>
+          {% endfor %}
+        </div>
+        <button id="shorten_btn" type="submit" class="button button-primary button-large"> Planifier un nouveau trajet </button>
+
     </div>
   </body>
+
+  <script>
+  function voirEtapes() {
+    console.log("hello2")
+    document.getElementById("etapesliste").style.display = "block";
+  }
+  </script>
+
+
+
 </html>

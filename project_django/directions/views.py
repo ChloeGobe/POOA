@@ -10,43 +10,53 @@ def index(request):
 
     template = loader.get_template('index.html')
 
-    isloaded = True
+    loaded = False
     context = {"futur_place" : arrivee,
                 "current_place" : depart,
-                "isloaded": isloaded}
+                "loaded": loaded}
 
     return render(request, 'index.html', context)
 
 def results(request):
     if request.method == 'POST':
-        print(request.POST)
         content = json.dumps(request.POST)
         content = json.loads(content)
-        print(content)
+
+        # Gestion depart et arrivee
         depart = content['depart']
         arrivee = content['arrivee']
 
+        #Pour nos tests, si nous ne rentrons rien, adresses par défaut
         if len(depart)==0 or len(arrivee)==0:
             depart = "123 rue de Tolbiac"
             arrivee = "10 rue de Tolbiac"
         depart =str(depart)
         arrivee = str(arrivee)
-        print(depart)
-        print(arrivee)
 
-       # try:
-        # Gestion de la pluie en A
+        # Gestion du poids porte par l'usager: isloaded indique que ce dernier est charge
+        try:
+            isloaded = content['loaded']
+            isloaded = True
+        except:
+            isloaded= False
+
+        # Gestion de la pluie
         weather = WeatherClass(depart)
-        #bad_conditions = weather.does_it_rain()
-
+        bad_conditions = weather.does_it_rain()
+        print(bad_conditions)
+        #Dans tous les cas on calcule les trajets metro et autolib
         trajet_metro = Metro(depart, arrivee)
         trajet_autolib = Autolib(depart, arrivee)
         trajets = [trajet_metro, trajet_autolib]
+        print(trajet_metro.temps_trajet)
+        print(trajet_autolib.temps_trajet)
 
-        #if not bad_conditions:
-        trajet_a_pied = Pieton(depart, arrivee)
-        trajets += [trajet_a_pied]
+        # Trajet a pied depend des conditions meteo
+        if not bad_conditions:
+            trajet_a_pied = Pieton(depart, arrivee)
+            trajets += [trajet_a_pied]
 
+        # Trajet velib depend de la charge portee par l'utilisateur
         if isloaded:
             trajet_velib = Velib(depart, arrivee)
             trajets += [trajet_velib]
@@ -57,16 +67,8 @@ def results(request):
                 trajet_min = i
 
         nom_trajet = trajet_min.__class__.__name__
+        print(nom_trajet)
         etapes_trajet = trajet_min.etapes_iti
         duree_trajet = trajet_min.temps_trajet
-        #resultat ={'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)}
-        #print(resultat)
-        #print(type(resultat['etapes']))
 
-        #except: # pour le dev quand on n a pas de connection internet
-         #   nom_trajet="mock_trajet"
-          #  etapes_trajet=["drive to A","Walk to B","Well done you did it"]
-           # duree_trajet=str(datetime.timedelta(minutes=15))
-            #print(nom_trajet)"
-
-        return render(request, 'results.html', {'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})
+        return render(request, 'results.html', {'bad_conditions':bad_conditions,'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})

@@ -82,6 +82,15 @@ class Trajet:
     def temps_trajet(self):
         return self.get_trajet_total()["duration"]
 
+    @property
+    def mode(self):
+        if self._mode.lower() in ["walking", 'driving', 'transit', "bicycling"]:
+            return self._mode.lower()
+
+    @property
+    def station_depart(self):
+        return self._station_depart
+
 
 
 class Pieton(Trajet):
@@ -89,9 +98,9 @@ class Pieton(Trajet):
     La classe est utilisee pour un trajet a pied mais aussi pour des portions de trajet realises avec un moyen de transport different."""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.station_depart = lieu_depart
-        self.station_arrivee = lieu_arrivee
-        self.mode = "walking"
+        self._station_depart = lieu_depart
+        self._station_arrivee = lieu_arrivee
+        self._mode = "walking"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -102,9 +111,9 @@ class Metro(Trajet):
     Le trajet en metro est considere comme etant en une seule partie"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.station_depart = lieu_depart
-        self.station_arrivee = lieu_arrivee
-        self.mode = "transit"
+        self._station_depart = lieu_depart
+        self._station_arrivee = lieu_arrivee
+        self._mode = "transit"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -114,13 +123,19 @@ class Location(Trajet):
     Le trajet est en trois parties pour les trajets de cette classe"""
 
     def __init__(self,lieu_depart, lieu_arrivee):
-        self.station_depart = self.get_closest_station(lieu_depart)
-        self.station_arrivee = self.get_closest_station(lieu_arrivee)
+        self._station_depart = self.get_closest_station(lieu_depart)
+        self._station_arrivee = self.get_closest_station(lieu_arrivee)
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
+    @property
+    def dataset(self):
+        if self._dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
+            return self._dataset.lower()
 
-    def get_closest_station(self, address):
+
+
+    def __get_closest_station(self, address):
         """Permet d'obtenir les stations les plus proches de Velib et Autolib"""
 
         # Transforme une adresse en coordonnees geographiques qui vont etre utilise par l'API OpenData"
@@ -142,8 +157,8 @@ class Velib(Location):
     """Permet de definir les informations specifiques aux Velibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.dataset = "stations-velib-disponibilites-en-temps-reel"
-        self.mode = "bicycling"
+        self._dataset = "stations-velib-disponibilites-en-temps-reel"
+        self._mode = "bicycling"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -176,8 +191,8 @@ class Autolib(Location):
     """Permet de definir les informations specifiques aux Autolibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
-        self.mode = "driving"
+        self._dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
+        self._mode = "driving"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -193,27 +208,3 @@ class Autolib(Location):
         if isinstance(name, bytes):
             name = name.decode()
         return adresse, name
-
-
-if __name__ == '__main__':
-    depart = "La Fourche, Paris"
-    arrivee = "Luxembourg, Paris"
-    #trajet_metro = Metro(depart, arrivee)
-    #trajet_autolib = Autolib(depart, arrivee)
-    trajet_a_pied = Pieton(depart, arrivee)
-    #trajet_velib = Velib(depart, arrivee)
-
-    #trajets = [trajet_autolib, trajet_metro, trajet_velib, trajet_a_pied]
-
-
-    """trajet_min = trajet_autolib
-
-    for i in trajets:
-        if i.temps_trajet < trajet_min.temps_trajet:
-            trajet_min = i
-
-    print(
-        "Le meilleur trajet est " + trajet_min.__class__.__name__ + " avec un temps de " + str(trajet_min.temps_trajet))
-    print("Etapes a suivre:")"""
-    for elem in trajet_a_pied.etapes_iti:
-        print(elem)

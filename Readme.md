@@ -12,16 +12,16 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 ## Que reste-t'il à faire ?
 0. **Gestion des erreurs** : A faire en cours de test et debuguage
 - Créer les erreurs
-- Mettre des try et except (en précision l'erreur dans le except)
-- Mettre en place des 2eme chance utilisateurs avec des messages
+- Mettre des try et except si besoin (en précision l'erreur dans le except)
+
 	
 1. **Design page de resultat** : Eymard
 	- Mise en forme de la page de résultat : Pluie ou non, et Moyen de transport
 	- Faire une page de chargement
+	- Rppeler le point de depart et d'arrivee (utiliser celle interpretee par Google ? (en ajoutant deux attributs à l'objet trajet))
  
 2. **Accesseurs et mutateurs** : Chloé
-3. **Charge**
+3. **Charge** : Eymard
 4. **Controle les inputs globaux (user) => serializer** : Eymard
-5. **Verifier la disponibilité des autolibs ?**
-6. **Uber API**
-7. **Multithreading** 
+5. **AutoComplete d'adresse sur le site ?**
+6. **Multithreading** 

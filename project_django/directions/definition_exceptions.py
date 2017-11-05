@@ -3,3 +3,6 @@ class AdresseNonComprise(Exception):
 
 class AdresseHorsParis(Exception):
     pass
+
+class ItineraireNonTrouve(Exception):
+    pass

@@ -77,8 +77,23 @@ class GoogleClass:
 
         # Transforme le contenu en JSON
         result = resp.json()
-        print("\n\n\n")
-        print(result)
+
+
+        # Si le status est ZERO_RESULTS cela indique qu'aucun itinéraire n'a pu être identifié
+        # On va alors essayer de lever une erreur précisat à l'utilisateur d'où provient cette absence d'itineraire trouve
+        if result.get("status") == 'ZERO_RESULTS':
+
+                if 'partial_match' in result.get("geocoded_waypoints")[0].keys():
+                    if result.get("geocoded_waypoints")[0]['partial_match']:
+                        raise definition_exceptions.ItineraireNonTrouve("Essayez de préciser l'adresse de départ")
+
+                if 'partial_match' in result.get("geocoded_waypoints")[1].keys():
+                    if result.get("geocoded_waypoints")[1]['partial_match']:
+                        raise definition_exceptions.ItineraireNonTrouve("Essayez de préciser l'adresse d'arrivée")
+
+
+
+
         temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')
 
 

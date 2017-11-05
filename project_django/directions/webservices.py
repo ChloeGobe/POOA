@@ -15,6 +15,8 @@ except ModuleNotFoundError:
 
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
+#Google Key de secours : AIzaSyDJ_FB0MQ-vWllDLvOXoK_9vZHukE_YSwQ
+
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
@@ -77,7 +79,6 @@ class GoogleClass:
 
         # Transforme le contenu en JSON
         result = resp.json()
-        print(result)
 
         # Si le status est ZERO_RESULTS cela indique qu'aucun itinéraire n'a pu être identifié
         # On va alors essayer de lever une erreur précisat à l'utilisateur d'où provient cette absence d'itineraire trouve
@@ -98,6 +99,11 @@ class GoogleClass:
                     raise definition_exceptions.ItineraireNonTrouve("L'adresse d'arrivee n'est pas reconnue comme une adresse de rue")
 
                 raise definition_exceptions.ItineraireNonTrouve("Itineraire non trouve par GoogleMaps")
+
+
+        # Quota d'appel à l'API Google Maps atteint il faut en changer
+        if result.get("status") == 'OVER_QUERY_LIMIT':
+            raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celle-ci pour aujourd'hui")
 
 
         temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')

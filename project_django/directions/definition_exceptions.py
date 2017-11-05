@@ -6,3 +6,6 @@ class AdresseHorsParis(Exception):
 
 class ItineraireNonTrouve(Exception):
     pass
+
+class QuotaAtteint(Exception):
+    pass

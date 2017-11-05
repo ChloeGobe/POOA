@@ -15,7 +15,7 @@ except ModuleNotFoundError:
 
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
-#Google Key de secours : AIzaSyDJ_FB0MQ-vWllDLvOXoK_9vZHukE_YSwQ
+#Google Key de secours :
 
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"

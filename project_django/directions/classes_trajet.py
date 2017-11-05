@@ -68,9 +68,7 @@ class Trajet:
                         etapeC["duration"]
             ,
             # Les precisions des differentes etapes pourront être enlevees après l'etape de developement
-            "etapes" : ["\nEtape piétonne A :\n"] + etapeA["etapes"] +
-                       ["\nEtape Intermediaire\n"] + etapeB["etapes"] +
-                       ["\nEtape piétonne finale\n"] + etapeC["etapes"]
+            "etapes" : [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
         }
         return summary
 

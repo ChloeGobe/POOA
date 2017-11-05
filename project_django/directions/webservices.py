@@ -153,7 +153,7 @@ class WeatherClass:
         if meteo in bad_conditions and weather_call_worked==True:
             return True
         else:
-            return True
+            return False
 
 
 class OpendataParisClass:

@@ -378,9 +378,25 @@ input.text:focus {
     *zoom: 1;
 }
 
+#header{
+    z-index: 1000;
+    position: absolute;
+    height:100%;
+    width: 100%;
+    margin-bottom: -270px;
+    padding-bottom: 270px;
+    font-family: brandon-grotesque,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: url("paris.jpg") top center no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    *zoom: 1;
+}
+
 #headerbadconditions{
     z-index: 1000;
     position: relative;
+    height:50%;
     width: 100%;
     margin-bottom: -270px;
     padding-bottom: 270px;
@@ -391,6 +407,22 @@ input.text:focus {
     box-shadow: none;
     *zoom: 1;
 }
+
+#headergoodconditions{
+    z-index: 1000;
+    height:50%;
+    position: relative;
+    width: 100%;
+    margin-bottom: -270px;
+    padding-bottom: 270px;
+    font-family: brandon-grotesque,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: url("soleil.jpeg") top center no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    *zoom: 1;
+}
+
 #header.static-page {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -703,7 +735,7 @@ a.header-signup:hover {
     font-size: 26px;
     font-weight: 500;
     line-height: 28px;
-    color: #fff;
+    color: #000000;
 }
 
 .join-bitly {

@@ -378,6 +378,34 @@ input.text:focus {
     *zoom: 1;
 }
 
+#headerbadconditions{
+    z-index: 1000;
+    position: relative;
+    width: 100%;
+    margin-bottom: -270px;
+    padding-bottom: 270px;
+    font-family: brandon-grotesque,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: url("pluie.jpg") top center no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    *zoom: 1;
+}
+
+#headergoodconditions{
+    z-index: 1000;
+    position: relative;
+    width: 100%;
+    margin-bottom: -270px;
+    padding-bottom: 270px;
+    font-family: brandon-grotesque,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: url("soleil.jpg") top center no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    *zoom: 1;
+}
+
 #header.static-page {
     margin-bottom: 0;
     padding-bottom: 0;

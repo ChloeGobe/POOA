@@ -47,7 +47,6 @@ def results(request):
         trajet_metro = Metro(depart, arrivee)
         trajet_autolib = Autolib(depart, arrivee)
         trajets = [trajet_metro, trajet_autolib]
-        print(trajet_metro.temps_trajet)
         print(trajet_autolib.temps_trajet)
 
         # Trajet a pied depend des conditions meteo

@@ -39,6 +39,7 @@ class Trajet:
             'duration': web_services.get_time(),
             "etapes": web_services.get_etapes(),
         }
+
         return summary
 
 

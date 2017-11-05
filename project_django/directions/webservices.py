@@ -48,7 +48,7 @@ class GoogleClass:
 
     def get_etapes(self):
         """Obtenir les directions du trajet"""
-        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival +'&mode=' + self.mode + '&key='+GOOGLE_KEY
+        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival + '&region=fr' + '&mode=' + self.mode + '&key='+GOOGLE_KEY
 
         resp = self.communication(url)
 
@@ -77,7 +77,10 @@ class GoogleClass:
 
         # Transforme le contenu en JSON
         result = resp.json()
+        print("\n\n\n")
+        print(result)
         temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')
+
 
         # Convertir le temps obtenu qui est sous forme de texte en elements utilisables
         temps = temps_text.split(" ")

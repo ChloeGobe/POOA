@@ -8,14 +8,13 @@ import json
 
 def index(request):
 
-    template = loader.get_template('index.html')
-
     loaded = False
     context = {"futur_place" : arrivee,
                 "current_place" : depart,
                 "loaded": loaded}
 
     return render(request, 'index.html', context)
+
 
 def results(request):
     if request.method == 'POST':
@@ -43,11 +42,13 @@ def results(request):
         # Gestion de la pluie
         weather = WeatherClass(depart)
         bad_conditions = False
+        """bad_conditions = weather.does_it_rain()"""
+
+
         #Dans tous les cas on calcule les trajets metro et autolib
         trajet_metro = Metro(depart, arrivee)
         trajet_autolib = Autolib(depart, arrivee)
         trajets = [trajet_metro, trajet_autolib]
-        print(trajet_autolib.temps_trajet)
 
         # Trajet a pied depend des conditions meteo
         if not bad_conditions:
@@ -55,7 +56,7 @@ def results(request):
             trajets += [trajet_a_pied]
 
         # Trajet velib depend de la charge portee par l'utilisateur
-        if isloaded:
+        if not isloaded and not bad_conditions:
             trajet_velib = Velib(depart, arrivee)
             trajets += [trajet_velib]
 
@@ -65,7 +66,12 @@ def results(request):
                 trajet_min = i
 
         nom_trajet = trajet_min.__class__.__name__
-        print(nom_trajet)
+
+        print(trajets)
+
+        test  = [str(element.temps_trajet) for element in trajets]
+        print(test)
+
         etapes_trajet = trajet_min.etapes_iti
         duree_trajet = trajet_min.temps_trajet
 

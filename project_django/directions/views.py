@@ -33,10 +33,10 @@ def results(request):
         arrivee = str(arrivee)
 
         # Gestion du poids porte par l'usager: isloaded indique que ce dernier est charge
-        try:
+        if 'loaded' in content.keys():
             isloaded = content['loaded']
             isloaded = True
-        except:
+        else:
             isloaded= False
 
         # Gestion de la pluie

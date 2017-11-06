@@ -11,12 +11,6 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 ## Que reste-t'il à faire ?
 
-0. Notes cours
-self station de départ et arrivée doivent être initialisés à None dans la classe mère
-Lieu d'arrivée et public doivent être protected
-Lieu de départ et lieu d"arrivée en protected
-__get.closest.station
-Multithreading
 
 1. **Design page de resultat** : Eymard
 	- Mise en forme de la page de résultat : Pluie ou non, et Moyen de transport

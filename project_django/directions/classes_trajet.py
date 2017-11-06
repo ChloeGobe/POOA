@@ -26,13 +26,17 @@ class Trajet:
 
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.lieu_depart = lieu_depart
-        self.lieu_arrivee = lieu_arrivee
+        self._lieu_depart = lieu_depart
+        self._lieu_arrivee = lieu_arrivee
+        self._station_arrivee = None
+        self._station_depart = None
+        self._mode = None
 
 
-    def get_trajet_specifique(self):
+
+    def _get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self.mode)
+        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self._mode)
 
         # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
         summary = {
@@ -43,17 +47,17 @@ class Trajet:
         return summary
 
 
-    def get_trajet_total(self):
+    def __get_trajet_total(self):
         """Somme les differents bouts de trajet pour completer l'objet trajet avec le temps de trajet total et les etapes"""
 
         # 1ere etape : se rendre à une station de depart s'il y en a une (sinon station_depart est le lieu de depart)
-        etapeA= Pieton(self.lieu_depart, self._station_depart).get_trajet_specifique()
+        etapeA= Pieton(self._lieu_depart, self._station_depart)._get_trajet_specifique()
 
         # 2eme etape : faire le trajet spécifique : vélo, auto, ...
-        etapeB = self.get_trajet_specifique()
+        etapeB = self._get_trajet_specifique()
 
         # 3eme etape : se rendre à la station d'arrivee s'il y en a une (sinon station_arrivee est le lieu d'arrivee)
-        etapeC = Pieton(self._station_arrivee, self.lieu_arrivee).get_trajet_specifique()
+        etapeC = Pieton(self._station_arrivee, self._lieu_arrivee)._get_trajet_specifique()
 
         # Si l'étape piétonne est trop brève (la station est proche), nul besoin de la compter,
         # elle sera reprise dans une autre etape par Google maps
@@ -76,20 +80,20 @@ class Trajet:
 
     @property
     def etapes_iti(self):
-        return self.get_trajet_total()["etapes"]
+        return self.__get_trajet_total()["etapes"]
 
     @property
     def temps_trajet(self):
-        return self.get_trajet_total()["duration"]
+        return self.__get_trajet_total()["duration"]
 
-    @property
-    def mode(self):
-        if self._mode.lower() in ["walking", 'driving', 'transit', "bicycling"]:
-            return self._mode.lower()
+    def _set_mode(self, nom_mode):
+        if nom_mode in ["walking", 'driving', 'transit', "bicycling"]:
+            self._mode = nom_mode
 
-    @property
-    def station_depart(self):
-        return self._station_depart
+    def _get_mode(self):
+        return self._mode
+
+    _mode = property(_get_mode, _set_mode)
 
 
 
@@ -125,13 +129,19 @@ class Location(Trajet):
     def __init__(self,lieu_depart, lieu_arrivee):
         self._station_depart = self.__get_closest_station(lieu_depart)
         self._station_arrivee = self.__get_closest_station(lieu_arrivee)
+        self._dataset = None
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
-    @property
-    def dataset(self):
+
+    def _set_dataset(self, nom_dataset):
         if self._dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
-            return self._dataset.lower()
+            self._dataset = nom_dataset.lower()
+
+    def _get_dataset(self):
+        return self._dataset
+
+    _dataset = property(_get_dataset, _set_dataset)
 
 
 
@@ -145,7 +155,7 @@ class Location(Trajet):
         # Perimetre autour dans lequel on souhaite trouver nos stations
         radius = 5000
         web_services_loc = webservices.OpendataParisClass()
-        resp = web_services_loc.call_opendata(lat, lng, radius, self.dataset)
+        resp = web_services_loc.call_opendata(lat, lng, radius, self._dataset)
 
         # Recupere l'adresse et l'identifiant de la station la plus proche
         closest_station_address, closest_station_name = self.get_info_station(resp)

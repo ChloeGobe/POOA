@@ -69,11 +69,6 @@ def results(request):
 
         nom_trajet = trajet_min.__class__.__name__
 
-        print(trajets)
-
-        test  = [str(element.temps_trajet) for element in trajets]
-        print(test)
-
         etapes_trajet = trajet_min.etapes_iti
         duree_trajet = trajet_min.temps_trajet
 

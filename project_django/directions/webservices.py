@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from requests import get, HTTPError
 from re import sub
@@ -22,22 +23,23 @@ VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 
 def communication(url, key=""):
-    """Recupere l'URL"""
+    """Recupere un json dans la réponse de l'API"""
     resp = get(url + key)
 
     # Permet de verifier qu'une reponse est bien obtenue
     if resp.status_code != 200:
         raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
+
     result = resp.json()
     return result
 
 
 class GoogleClass:
-    """Definit les differents services internet de Google qui vont etre necessaires"""
+    """Definit les differents services internet de Google qui vont être nécessaires"""
 
     def __init__(self,departure,arrival,mode):
 
-        # Verifie le type des arguments
+        # Vérifie le type des arguments
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
 
@@ -58,7 +60,7 @@ class GoogleClass:
 
 
     def get_etapes_and_time(self):
-        """Obtenir les directions du trajet"""
+        """Obtenir les directions et le temps du trajet"""
 
         url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival + '&region=fr' + '&mode=' + self.mode + '&key='
 
@@ -80,7 +82,7 @@ class GoogleClass:
 
         # GET_TIME
         # Si le status est ZERO_RESULTS cela indique qu'aucun itinéraire n'a pu être identifié
-        # On va alors essayer de lever une erreur précisat à l'utilisateur d'où provient cette absence d'itineraire trouve
+        # On va alors essayer de lever une erreur précisant à l'utilisateur d'où provient cette absence d'itineraire trouvé
         if result.get("status") == 'ZERO_RESULTS':
 
                 if 'partial_match' in result.get("geocoded_waypoints")[0].keys():
@@ -97,15 +99,12 @@ class GoogleClass:
                 if 'street_address' not in result.get("geocoded_waypoints")[1]['types']:
                     raise definition_exceptions.ItineraireNonTrouve("L'adresse d'arrivee n'est pas reconnue comme une adresse de rue")
 
-                raise definition_exceptions.ItineraireNonTrouve("Itineraire non trouve par GoogleMaps")
-
-
-
+                raise definition_exceptions.ItineraireNonTrouve("Itineraire non trouvé par GoogleMaps")
 
 
         temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')
 
-        # Convertir le temps obtenu qui est sous forme de texte en elements utilisables
+        # Convertir le temps obtenu qui est sous forme de texte en élèments utilisables
         temps = temps_text.split(" ")
 
         # Commençons par les jours
@@ -183,12 +182,12 @@ class WeatherClass:
         meteo = result.get('weather')[0].get('description')
 
         bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
-        dic = {"few clouds":"Quelques nuages","scattered clouds":"Nuageux","broken clouds":"Très nuageux","clear sky":"ciel dégagé","shower rain":"Forte pluie", "rain":"Pluie", "thunderstorm":"Orage", "snow":"Neige", "mist":"Innondations"}
+        traduction_fr = {"few clouds":"Quelques nuages","scattered clouds":"Nuageux","broken clouds":"Très nuageux","clear sky":"ciel dégagé","shower rain":"Forte pluie", "rain":"Pluie", "thunderstorm":"Orage", "snow":"Neige", "mist":"Innondations"}
 
         if meteo in bad_conditions:
-            return dic[meteo],True
+            return traduction_fr[meteo],True
         else:
-            return dic[meteo],False
+            return traduction_fr[meteo],False
 
 
 class OpendataParisClass:

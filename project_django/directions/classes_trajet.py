@@ -13,17 +13,17 @@ import datetime
 
 class Trajet:
 
-    """Definit la classe trajet generale Trajet.
+    """Définit la classe trajet generale Trajet.
 
-       Chaque trajet peut-etre decoupe en trois parties :
+       Chaque trajet peut-être découpé en trois parties :
 
-                1. le trajet a pied quand on quitte le lieu de depart
+                1. le trajet à pied quand l'utilisateur quitte le lieu de départ
 
-                2. un trajet specifique au mode de transport : velo pour le velib, la voiture pour l'Autolib, etc..
-                    Ce trajet sera entre une station de depart et une station d'arrivée qui seront le lieu de départ
-                    le lieu d'arrivee pour les trajets pietons et en métro
+                2. un trajet spécifique au mode de transport : vélo pour le velib, la voiture pour l'Autolib, etc..
+                    Ce trajet sera entre une station de depart et une station d'arrivée.
+                    Dans le cas du Pieton et du Metro, ces stations coïncideront avec les lieux de départ et d'arrivée
 
-                3. le trajet a pied jusqu'au point d'arrivee"""
+                3. le trajet à pied jusqu'au point d'arrivée"""
 
 
     def __init__(self, lieu_depart, lieu_arrivee):
@@ -32,12 +32,11 @@ class Trajet:
 
 
     def _get_trajet_specifique(self):
-        """Calcule le trajet specifique a l'aide de Google Maps Directions"""
+        """Calcule le trajet spécifique à l'aide de Google Maps Directions"""
         web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self._mode)
 
-        # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
+        # Résume dans un dictionnaire les différentes étapes du trajet et son temps total
         infos = web_services.get_etapes_and_time()
-
         summary = {
             'duration':infos[1],
             "etapes": infos[0],
@@ -46,56 +45,58 @@ class Trajet:
         return summary
 
     def __get_trajet_total(self):
-        """Somme les differents bouts de trajet pour completer l'objet trajet avec le temps de trajet total et les etapes"""
+        """Somme les différents bouts de trajet pour compléter l'objet trajet avec le temps de trajet total et les étapes"""
 
-        # 1ere etape : se rendre à une station de depart s'il y en a une (sinon station_depart est le lieu de depart)
+        # 1ere étape : se rendre à une station de départ s'il y en a une (sinon station_depart est le lieu de depart)
         etapeA= Pieton(self._lieu_depart, self._station_depart)._get_trajet_specifique()
 
         # 2eme etape : faire le trajet spécifique : vélo, auto, ...
         etapeB = self._get_trajet_specifique()
 
-        # 3eme etape : se rendre à la station d'arrivee s'il y en a une (sinon station_arrivee est le lieu d'arrivee)
+        # 3eme etape : se rendre à la station d'arrivée s'il y en a une (sinon station_arrivée est le lieu d'arrivée)
         etapeC = Pieton(self._station_arrivee, self._lieu_arrivee)._get_trajet_specifique()
 
         # Si l'étape piétonne est trop brève (la station est proche), nul besoin de la compter,
-        # elle sera reprise dans une autre etape par Google maps
+        # elle sera reprise dans une autre etape par Google Maps
         if etapeA['duration'] < datetime.timedelta(minutes=1) or len(etapeA["etapes"]) < 2:
             etapeA["etapes"] = ['']
 
         if etapeC['duration'] < datetime.timedelta(minutes=1) or len(etapeC["etapes"]) < 2:
             etapeC["etapes"] = ['']
 
+        # Mise en forme du résultat des étapes en mentionnant à quel moment le moyen de transport spécifique est pris.
         transition = "Prenez votre "+str(self.__class__.__name__)
-        if self.__class__.__name__=="Pieton":
-            E = [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
-        else:
-            E = [etapeA["etapes"],["Prenez votre {}".format(str(self.__class__.__name__))],etapeB["etapes"],etapeC["etapes"]]
 
+        if self.__class__.__name__ == "Pieton":
+            liste_etapes = [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
+        else:
+            liste_etapes = [etapeA["etapes"],[transition],etapeB["etapes"],etapeC["etapes"]]
+
+        # Résume dans un dictionnaire les différentes étapes du trajet et son temps total
         summary = {
             "duration": etapeA["duration"] +
                         etapeB["duration"] +
                         etapeC["duration"]
             ,
-            # Les precisions des differentes etapes pourront être enlevees après l'etape de developement
-            "etapes" : E
+            "etapes" : liste_etapes
         }
         return summary
 
 
     # Les étapes de l'itinéaires sont demandées en dehors des classes, dans le view, on met donc en place un accesseur
-    # Ils ne doivent néanmoins pas être modifiés à l'exterieur
+    # Ils ne doivent néanmoins pas être modifiés à l'exterieur.
     @property
     def etapes_iti(self):
         return self.__get_trajet_total()["etapes"]
 
     # Les temps de trajet sont demandés en dehors des classes, dans le view, on met donc en place un accesseur.
-    # Ils ne doivent néanmoins pas être modifiés à l'exterieur
+    # Ils ne doivent néanmoins pas être modifiés à l'exterieur.
     @property
     def temps_trajet(self):
         return self.__get_trajet_total()["duration"]
 
-    # les stations de départ et d'arrivee peuvent être obtenues par un utilisateur qui aimerait se renseigner sur ce que
-    # Notre site lui renvoie. Ces accesseurs ne nous sont pas utiles dans le cadre de l'exercice.
+    # les stations de départ et d'arrivée peuvent être obtenues par un utilisateur qui aimerait se renseigner sur ce que
+    # notre site lui renvoie. Ces accesseurs ne nous sont pas utiles dans le cadre de l'exercice.
     @property
     def station_depart(self):
         return self._station_depart
@@ -104,8 +105,8 @@ class Trajet:
     def station_arrivee(self):
         return self._station_arrivee
 
-    # Dans le cadre de l'exercice, ces acceusseurs ne nous sont pas utiles. Néanmoins, si un utilisateur extérieur veut
-    # verifier quels sont les lieux de départ et d'arrivee, il pourra voir ce que Google a compris de ces input
+    # Dans le cadre de l'exercice, ces accesseurs ne nous sont pas utiles. Néanmoins, si un utilisateur extérieur veut
+    # verifier quels sont les lieux de départ et d'arrivée, il pourra voir ce que Google a compris de ses input
     @property
     def lieu_depart(self):
         # Affichage de ce que Google a compris
@@ -116,23 +117,20 @@ class Trajet:
         # Affiachage de ce que Google a compris
         pass;
 
+    # Pour un utilisateur extérieur
+    @property
+    def mode(self):
+        if self._mode.lower() in ["walking", 'driving', 'transit', "bicycling"]:
+            return self._mode.lower()
+        else:
+            raise definition_exceptions.ModeNonDefini("Le mode de transport n'est pas défini dans Google Maps")
 
-    # Mode peut être accessible en lecture par un utilisateur extérieur s'il le requiert.
-    # Les classes filles peuvent modifier sa valeur, dans le respect des valeurs possibles.
-    def _set_mode(self, nom_mode):
-        if nom_mode in ["walking", 'driving', 'transit', "bicycling"]:
-            self._mode = nom_mode
-
-    def get_mode(self):
-        return self._mode
-
-    mode = property(get_mode, _set_mode)
 
 
 
 class Pieton(Trajet):
-    """Definit les trajets a pied.
-    La classe est utilisee pour un trajet a pied mais aussi pour des portions de trajet realises avec un moyen de transport different."""
+    """Définit les trajets à pied.
+    La classe est utilisée pour un trajet - pied mais aussi pour des portions de trajet realisées avec un moyen de transport different."""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
@@ -143,9 +141,9 @@ class Pieton(Trajet):
 
 
 class Metro(Trajet):
-    """Definit les trajets en metro.
-    Google Maps calcule le trajet dans son ensemble, marche a pied comprise.
-    Le trajet en metro est considere comme etant en une seule partie"""
+    """Définit les trajets en metro.
+    Google Maps calcule le trajet dans son ensemble, marche à pied comprise.
+    Le trajet en metro est consideré comme étant en une seule partie"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
@@ -156,7 +154,7 @@ class Metro(Trajet):
 
 
 class Location(Trajet):
-    """Rassemble les locations de moyens de transport proposes par la Ville de Paris.
+    """Rassemble les locations de moyens de transport proposés par la Ville de Paris.
     Le trajet est en trois parties pour les trajets de cette classe"""
 
     def __init__(self,lieu_depart, lieu_arrivee):
@@ -165,41 +163,41 @@ class Location(Trajet):
         self._dataset = None
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
-
-
-    def _set_dataset(self, nom_dataset):
-        if nom_dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
-            self._dataset = nom_dataset.lower()
-
-    def get_dataset(self):
-        return self._dataset
-
-    dataset = property(get_dataset, _set_dataset)
+    # Pour un utilisateur
+    @property
+    def dataset(self):
+        if self._dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
+            return self._dataset.lower()
+        else:
+            raise definition_exceptions.ModeNonDefini("Le mode de transport n'est pas défini dans Google Maps")
 
 
     def get_info_station(self, input):
+        """Methode abstraite, elle sera définie dans les classes filles."""
         raise NotImplementedError
+
 
     def __get_closest_station(self, address):
         """Permet d'obtenir les stations les plus proches de Velib et Autolib"""
 
-        # Transforme une adresse en coordonnees geographiques qui vont etre utilise par l'API OpenData"
+        # Transforme une adresse en coordonnees géographiques qui vont etre utilisé par l'API OpenData"
         web_services_google = webservices.GoogleClass(address, "", "walking")
         lat, lng = web_services_google.get_latlong(address)
 
-        # Perimetre autour dans lequel on souhaite trouver nos stations
+        # Périmetre autour  duquel on souhaite trouver nos stations
         radius = 5000
         web_services_loc = webservices.OpendataParisClass()
         resp = web_services_loc.call_opendata(lat, lng, radius, self._dataset)
 
-        # Recupere l'adresse et l'identifiant de la station la plus proche
+        # Récupere l'adresse et l'identifiant de la station la plus proche
         closest_station_address, closest_station_name = self.get_info_station(resp)
+
         return closest_station_address
 
 
 
 class Velib(Location):
-    """Permet de definir les informations specifiques aux Velibs"""
+    """Permet de définir les informations specifiques aux Velibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self._dataset = "stations-velib-disponibilites-en-temps-reel"
@@ -208,12 +206,12 @@ class Velib(Location):
 
 
     def get_info_station(self, reponse_webservices):
-        """Recupere et selectionne les infos renvoyees par l'API pour les Velibs"""
+        """Récupere et sélectionne les infos renvoyées par l'API pour les Velibs"""
         i = 0
         statut = reponse_webservices.get("records")[i].get("fields").get("status")
 
         # Tant qu'on ne trouve pas de station ouverte, on en choisit une qui est un peu plus loin
-        # Les stations sont rangees par ordre de distance
+        # Les stations sont rangeés par ordre de distance
         while statut != "OPEN":
             i += 1
             statut = reponse_webservices.get("records")[i].get("fields").get("status")
@@ -223,7 +221,7 @@ class Velib(Location):
 
         name = reponse_webservices.get("records")[i].get("fields").get("name")
 
-        # Decode les informations si des bit sont renvoyes pour eviter de les transmettre a l'API Google
+        # Décode les informations si des bit sont renvoyés pour éviter de les transmettre a l'API Google
         if isinstance(adresse, bytes):
             adresse = adresse.decode()
         if isinstance(name, bytes):
@@ -233,7 +231,7 @@ class Velib(Location):
 
 
 class Autolib(Location):
-    """Permet de definir les informations specifiques aux Autolibs"""
+    """Permet de définir les informations spécifiques aux Autolibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
         self._dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
@@ -242,12 +240,12 @@ class Autolib(Location):
 
 
     def get_info_station(self, reponse_webservices):
-        """Recupere et selectionne les infos renvoyees par l'API pour les Autolibs"""
+        """Récupère et sélectionne les infos renvoyées par l'API pour les Autolibs"""
 
         adresse = reponse_webservices.get("records")[0].get("fields").get("adresse")
         name = reponse_webservices.get("records")[0].get("fields").get("id_autolib")
 
-        # Decode les informations si des bytes sont renvoyes pour eviter de les transmettre a l'API Google
+        # Décode les informations si des bytes sont renvoyés pour éviter de les transmettre a l'API Google
         if isinstance(adresse, bytes):
             adresse = adresse.decode()
         if isinstance(name, bytes):

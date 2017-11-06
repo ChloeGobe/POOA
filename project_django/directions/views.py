@@ -1,6 +1,5 @@
-from django.views.generic import TemplateView
-from django.http import HttpResponse
-from django.template import loader
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from directions.classes_trajet import *
 from directions.webservices import WeatherClass
@@ -40,10 +39,7 @@ def results(request):
 
         # Gestion de la pluie
         weather = WeatherClass("Paris")
-        bad_conditions = False
         weather_like,bad_conditions = weather.does_it_rain()
-        print(weather_like)
-
 
 
         #Dans tous les cas on calcule les trajets metro et autolib
@@ -55,15 +51,18 @@ def results(request):
         if not bad_conditions:
             trajet_a_pied = Pieton(depart, arrivee)
             trajets += [trajet_a_pied]
+
+            # Trajet velib depend de la charge portee par l'utilisateur et de la méteo
+            if not isloaded:
+                trajet_velib = Velib(depart, arrivee)
+                trajets += [trajet_velib]
+
             trajet_min = trajet_a_pied
+
         else:
             trajet_min = trajet_autolib
 
-        # Trajet velib depend de la charge portee par l'utilisateur
-        if not isloaded and not bad_conditions:
-            trajet_velib = Velib(depart, arrivee)
-            trajets += [trajet_velib]
-
+        # Calcul du trajet avec le temps de trajet minimum, parmi ceux acceptables.
         for i in trajets:
             if i.temps_trajet < trajet_min.temps_trajet:
                 trajet_min = i

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class AdresseNonComprise(Exception):
     pass
 
@@ -11,4 +13,7 @@ class QuotaAtteint(Exception):
     pass
 
 class MeteoBroken(Exception):
+    pass
+
+class ModeNonDefini(Exception):
     pass

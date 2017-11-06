@@ -13,16 +13,12 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 
 1. **Design page de resultat** : Eymard
-	- Mise en forme de la page de résultat : Pluie ou non, et Moyen de transport
-	- Faire une page de chargement
-	- Mettre la charge plus visible
+	- Dico de traduction de la méteo
 	- Rppeler le point de depart et d'arrivee (utiliser celle interpretee par Google ? (en ajoutant deux attributs à l'objet trajet))
 
-2. **Accesseurs et mutateurs** : Chloé
-    - Tester
-    - Demander à M.Poli ce qu'il en pense
-
-3. **Charge** : Eymard
-4. **Controle les inputs globaux (user) => serializer** : Eymard
-5. **AutoComplete d'adresse sur le site ?**
-6. **Multithreading**
+2. **Charge** : Eymard
+3. **Controle les inputs globaux (user) => serializer** : Eymard
+4. **AutoComplete d'adresse sur le site ?**
+5. **Multithreading**
+6. **Read Me User** : Chloé
+7. **Aller voir le barème de notation** : Chloé

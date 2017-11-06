@@ -15,10 +15,21 @@ except ModuleNotFoundError:
 
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
-#Google Key de secours :
-#GOOGLE_KEY_SECOURS = 'AIzaSyBbGFsuZ4lz4BsamY8nMiUH3HLGomwIZmU'
+GOOGLE_KEY_SECOURS = 'AIzaSyBbGFsuZ4lz4BsamY8nMiUH3HLGomwIZmU'
+
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
+
+
+def communication(url, key=""):
+    """Recupere l'URL"""
+    resp = get(url + key)
+
+    # Permet de verifier qu'une reponse est bien obtenue
+    if resp.status_code != 200:
+        raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
+    result = resp.json()
+    return result
 
 
 class GoogleClass:
@@ -27,7 +38,6 @@ class GoogleClass:
     def __init__(self,departure,arrival,mode):
 
         # Verifie le type des arguments
-
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
 
@@ -45,22 +55,21 @@ class GoogleClass:
         self.mode=mode
 
 
-    def communication (self,url):
-        """Recupere l'URL"""
-        resp = get(url)
-        return resp
 
 
     def get_etapes_and_time(self):
         """Obtenir les directions du trajet"""
-        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival + '&region=fr' + '&mode=' + self.mode + '&key='+GOOGLE_KEY
 
-        resp = self.communication(url)
+        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival + '&region=fr' + '&mode=' + self.mode + '&key='
 
-        # Permet de verifier qu'une reponse est bien obtenue
-        if resp.status_code != 200:
-            raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
-        result = resp.json()
+        result = communication(url, GOOGLE_KEY)
+
+        # Quota d'appel à l'API Google Maps atteint pour la clé, il faut en changer
+        if result.get("status") == 'OVER_QUERY_LIMIT':
+            result = communication(url, GOOGLE_KEY_SECOURS)
+            if result.get("status") == 'OVER_QUERY_LIMIT':
+                raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celles disponibles (pour aujourd'hui)")
+
 
         # GET ETAPES
         # Nettoie les directions de caracteres speciaux
@@ -91,9 +100,7 @@ class GoogleClass:
                 raise definition_exceptions.ItineraireNonTrouve("Itineraire non trouve par GoogleMaps")
 
 
-        # Quota d'appel à l'API Google Maps atteint il faut en changer
-        if result.get("status") == 'OVER_QUERY_LIMIT':
-            raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celle-ci pour aujourd'hui")
+
 
 
         temps_text = result.get('routes')[0].get('legs')[0].get('duration').get('text')
@@ -134,9 +141,14 @@ class GoogleClass:
         """Transforme une adresse pour la convertir en coordonnees de geolocalisation"""
 
         address.replace(" ", "+")
-        url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="+GOOGLE_KEY
-        resp = self.communication(url)
-        result = resp.json()
+        url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="
+        result = communication(url, GOOGLE_KEY)
+
+        # Quota d'appel à l'API Google Maps atteint pour la clé, il faut en changer
+        if result.get("status") == 'OVER_QUERY_LIMIT':
+            result = communication(url, GOOGLE_KEY_SECOURS)
+            if result.get("status") == 'OVER_QUERY_LIMIT':
+                raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celles disponibles (pour aujourd'hui)")
 
         # Si aucun  resultat n'est trouve par Google, il ne renverra pas de resultat, ce qu'il faudra signaler.
         if len(result.get('results')) == 0:
@@ -161,16 +173,18 @@ class WeatherClass:
 
     def does_it_rain(self):
         """Permet de savoir si les conditions meteos sont bonnes"""
-        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&APPID="+WEATHER_KEY
+        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&APPID="
 
-        resp = get(url).json()
-        meteo="Pas d'infos sur la météo"
-        if 'weather' not in resp.keys():
+        result = communication(url, WEATHER_KEY)
+
+        if 'weather' not in result.keys():
             raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
 
-        meteo = resp.get('weather')[0].get('description')
+        meteo = result.get('weather')[0].get('description')
+
         bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
         dic = {"few clouds":"Quelques nuages","scattered clouds":"Nuageux","broken clouds":"Très nuageux","clear sky":"ciel dégagé","shower rain":"Forte pluie", "rain":"Pluie", "thunderstorm":"Orage", "snow":"Neige", "mist":"Innondations"}
+
         if meteo in bad_conditions:
             return dic[meteo],True
         else:
@@ -184,6 +198,5 @@ class OpendataParisClass:
     def call_opendata(self,lat,lng,radius,dataset):
         """Recupere les informations de l'open data en fonction de parametres geographiques"""
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
-        resp = get(url)
-        reponse = resp.json()
-        return reponse
+        return communication(url)
+

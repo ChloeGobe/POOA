@@ -11,7 +11,6 @@ except ModuleNotFoundError:
 import datetime
 
 
-
 class Trajet:
 
     """Definit la classe trajet generale Trajet.
@@ -178,6 +177,8 @@ class Location(Trajet):
     dataset = property(get_dataset, _set_dataset)
 
 
+    def get_info_station(self, input):
+        raise NotImplementedError
 
     def __get_closest_station(self, address):
         """Permet d'obtenir les stations les plus proches de Velib et Autolib"""

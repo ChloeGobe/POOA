@@ -36,18 +36,19 @@ class Trajet:
 
 
 
-    def _get_trajet_specifique(self):
+    def get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self._mode)
+        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self.mode)
 
         # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
+        infos = web_services.get_etapes_and_time()
+
         summary = {
-            'duration': web_services.get_time(),
-            "etapes": web_services.get_etapes(),
+            'duration':infos[1],
+            "etapes": infos[0],
         }
 
         return summary
-
 
     def __get_trajet_total(self):
         """Somme les differents bouts de trajet pour completer l'objet trajet avec le temps de trajet total et les etapes"""

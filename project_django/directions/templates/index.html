@@ -4,6 +4,8 @@
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   </head>
 
 <body class="">
@@ -14,14 +16,16 @@
 <div class="container container-pod shorten-container">
   <h1 class="page-title t-center" style="color:black;">Centrale Mapper</h1>
   <div class="join-bitly t-center" style="color:grey;">Où allons-nous aujourd'hui ?</div>
+
 <button class="button button-primary button-large" style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Traitement en cours...</button>
-<div style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
+
+<div  style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
 
 <form id="centrale_mapper_form" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl">
   <fieldset class="cf">
   {% csrf_token %}
-  <div class="form-group">
-    <div class="col-sm-10">
+  <div class="form-group" >
+    <div class="col-sm-10" >
       <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="email" placeholder="D'où partez-vous ?">
     </div>
   </div>
@@ -34,20 +38,28 @@
   </div>
   <div class="form-group">
     <label style="color:black;"  class="control-label col-sm-2">.</label>
-    <div style="color:black; background-color:white;padding:5px;"  class="col-sm-10">
+    <div class="checkbox" style="color:black; background-color:white;" >
       <input  type="checkbox" value="{{loaded}}" name="loaded" class="form-control"> J'ai une charge à porter
     </div>
   </div>
 
 <div>
   <button style="margin-top:15%;" id="submit_button" type="submit" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
+  <div class="join-bitly t-center" style="color:white;font-size:100%;">Recherche d'itinéraire le plus rapide (A pied, Velib, Autolib, Metro)</div>
+
 </div>
 </fieldset>
 </form>
+
 </div>
 </div>
+
 </div>
 </div>
+
+
+
+
 <div class="container clearfix">
 <footer id="footer" role="contentinfo" data-template="stage-footer">
 <section class="stage-pod">

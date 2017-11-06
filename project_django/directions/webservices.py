@@ -171,17 +171,20 @@ class WeatherClass:
 
     def does_it_rain(self):
         """Permet de savoir si les conditions meteos sont bonnes"""
-        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",uk&APPID="+WEATHER_KEY
+        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&APPID="+WEATHER_KEY
 
         resp = get(url).json()
+        meteo="Pas d'infos sur la météo"
+        if 'weather' not in resp.keys():
+            raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
+
         meteo = resp.get('weather')[0].get('description')
-        weather_call_worked=True
         bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
 
         if meteo in bad_conditions:
-            return True
+            return meteo,True
         else:
-            return False
+            return meteo,False
 
 
 class OpendataParisClass:

@@ -9,3 +9,6 @@ class ItineraireNonTrouve(Exception):
 
 class QuotaAtteint(Exception):
     pass
+
+class MeteoBroken(Exception):
+    pass

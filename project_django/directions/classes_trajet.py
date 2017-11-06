@@ -36,7 +36,7 @@ class Trajet:
 
 
 
-    def get_trajet_specifique(self):
+    def _get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
         web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self.mode)
 
@@ -134,7 +134,7 @@ class Pieton(Trajet):
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
         self._station_arrivee = lieu_arrivee
-        self.mode = "walking"
+        self._mode = "walking"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -147,7 +147,7 @@ class Metro(Trajet):
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
         self._station_arrivee = lieu_arrivee
-        self.mode = "transit"
+        self._mode = "transit"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -165,7 +165,7 @@ class Location(Trajet):
 
 
     def _set_dataset(self, nom_dataset):
-        if self._dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
+        if nom_dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
             self._dataset = nom_dataset.lower()
 
     def get_dataset(self):
@@ -197,8 +197,8 @@ class Velib(Location):
     """Permet de definir les informations specifiques aux Velibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.dataset = "stations-velib-disponibilites-en-temps-reel"
-        self.mode = "bicycling"
+        self._dataset = "stations-velib-disponibilites-en-temps-reel"
+        self._mode = "bicycling"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -231,8 +231,8 @@ class Autolib(Location):
     """Permet de definir les informations specifiques aux Autolibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
-        self.mode = "driving"
+        self._dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
+        self._mode = "driving"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 

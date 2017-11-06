@@ -42,7 +42,7 @@ def results(request):
         # Gestion de la pluie
         weather = WeatherClass(depart)
         bad_conditions = False
-        """bad_conditions = weather.does_it_rain()"""
+        bad_conditions = weather.does_it_rain()
 
 
         #Dans tous les cas on calcule les trajets metro et autolib

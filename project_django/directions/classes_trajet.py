@@ -108,10 +108,12 @@ class Trajet:
     @property
     def lieu_depart(self):
         # Affichage de ce que Google a compris
+        pass;
 
     @property
     def lieu_arrivee(self):
         # Affiachage de ce que Google a compris
+        pass;
 
 
     # Mode peut être accessible en lecture par un utilisateur extérieur s'il le requiert.

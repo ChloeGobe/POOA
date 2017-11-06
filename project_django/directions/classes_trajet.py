@@ -30,15 +30,11 @@ class Trajet:
     def __init__(self, lieu_depart, lieu_arrivee):
         self._lieu_depart = lieu_depart
         self._lieu_arrivee = lieu_arrivee
-        self._station_arrivee = None
-        self._station_depart = None
-        self._mode = None
-
 
 
     def _get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self.mode)
+        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self._mode)
 
         # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
         infos = web_services.get_etapes_and_time()
@@ -187,7 +183,7 @@ class Location(Trajet):
         # Perimetre autour dans lequel on souhaite trouver nos stations
         radius = 5000
         web_services_loc = webservices.OpendataParisClass()
-        resp = web_services_loc.call_opendata(lat, lng, radius, self.dataset)
+        resp = web_services_loc.call_opendata(lat, lng, radius, self._dataset)
 
         # Recupere l'adresse et l'identifiant de la station la plus proche
         closest_station_address, closest_station_name = self.get_info_station(resp)

@@ -27,9 +27,12 @@ class GoogleClass:
     def __init__(self,departure,arrival,mode):
 
         # Verifie le type des arguments
+
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
-
+    
+        print(mode)
+        print(type(mode))
         if not isinstance(departure, str):
             raise TypeError("Le departure doit etre une chaine de caracteres")
         if not isinstance(arrival, str):

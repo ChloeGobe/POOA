@@ -13,12 +13,11 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 
 1. **Design page de resultat** : Eymard
-	- Dico de traduction de la méteo
 	- Rppeler le point de depart et d'arrivee (utiliser celle interpretee par Google ? (en ajoutant deux attributs à l'objet trajet))
 
-2. **Charge** : Eymard
-3. **Controle les inputs globaux (user) => serializer** : Eymard
-4. **AutoComplete d'adresse sur le site ?**
-5. **Multithreading**
-6. **Read Me User** : Chloé
-7. **Aller voir le barème de notation** : Chloé
+2. **AutoComplete d'adresse sur le site ?** : Eymard
+3. **Multithreading** : Eymard
+4. **Read Me User** : Chloé
+5. **Aller voir le barème de notation** : Chloé
+6. **Lieu depart/ Lieu d'arrivee Attribut en utilisant Google API** : Chloé
+7. **Classes implicites, Abstract** : Chloé

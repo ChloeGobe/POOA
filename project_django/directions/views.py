@@ -56,13 +56,15 @@ def results(request):
         if not bad_conditions:
             trajet_a_pied = Pieton(depart, arrivee)
             trajets += [trajet_a_pied]
+            trajet_min = trajet_a_pied
+        else:
+            trajet_min = trajet_autolib
 
         # Trajet velib depend de la charge portee par l'utilisateur
         if not isloaded and not bad_conditions:
             trajet_velib = Velib(depart, arrivee)
             trajets += [trajet_velib]
 
-        trajet_min = trajet_autolib
         for i in trajets:
             if i.temps_trajet < trajet_min.temps_trajet:
                 trajet_min = i

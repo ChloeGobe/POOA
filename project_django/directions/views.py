@@ -34,7 +34,6 @@ def results(request):
 
         # Gestion du poids porte par l'usager: isloaded indique que ce dernier est charge
         if 'loaded' in content.keys():
-            isloaded = content['loaded']
             isloaded = True
         else:
             isloaded= False

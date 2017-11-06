@@ -16,7 +16,7 @@ except ModuleNotFoundError:
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 #Google Key de secours :
-
+#GOOGLE_KEY_SECOURS = 'AIzaSyBbGFsuZ4lz4BsamY8nMiUH3HLGomwIZmU'
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
@@ -30,7 +30,7 @@ class GoogleClass:
 
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
-    
+
         print(mode)
         print(type(mode))
         if not isinstance(departure, str):

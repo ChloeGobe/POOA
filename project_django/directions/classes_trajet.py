@@ -32,7 +32,7 @@ class Trajet:
 
     def get_trajet_specifique(self):
         """Calcule le trajet specifique a l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self.station_depart, self.station_arrivee, self.mode)
+        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self.mode)
 
         # Resume dans un dictionnaire les differentes etapes du trajet et son temps total
         summary = {
@@ -47,13 +47,13 @@ class Trajet:
         """Somme les differents bouts de trajet pour completer l'objet trajet avec le temps de trajet total et les etapes"""
 
         # 1ere etape : se rendre à une station de depart s'il y en a une (sinon station_depart est le lieu de depart)
-        etapeA= Pieton(self.lieu_depart, self.station_depart).get_trajet_specifique()
+        etapeA= Pieton(self.lieu_depart, self._station_depart).get_trajet_specifique()
 
         # 2eme etape : faire le trajet spécifique : vélo, auto, ...
         etapeB = self.get_trajet_specifique()
 
         # 3eme etape : se rendre à la station d'arrivee s'il y en a une (sinon station_arrivee est le lieu d'arrivee)
-        etapeC = Pieton(self.station_arrivee, self.lieu_arrivee).get_trajet_specifique()
+        etapeC = Pieton(self._station_arrivee, self.lieu_arrivee).get_trajet_specifique()
 
         # Si l'étape piétonne est trop brève (la station est proche), nul besoin de la compter,
         # elle sera reprise dans une autre etape par Google maps
@@ -123,8 +123,8 @@ class Location(Trajet):
     Le trajet est en trois parties pour les trajets de cette classe"""
 
     def __init__(self,lieu_depart, lieu_arrivee):
-        self._station_depart = self.get_closest_station(lieu_depart)
-        self._station_arrivee = self.get_closest_station(lieu_arrivee)
+        self._station_depart = self.__get_closest_station(lieu_depart)
+        self._station_arrivee = self.__get_closest_station(lieu_arrivee)
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 

@@ -17,7 +17,6 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 2. **AutoComplete d'adresse sur le site ?** : Eymard
 3. **Multithreading** : Eymard
-4. **Read Me User** : Chloé
+4. **Read Me User** : Chloé (pas safari pour l'autocomplete)
 5. **Aller voir le barème de notation** : Chloé
 6. **Lieu depart/ Lieu d'arrivee Attribut en utilisant Google API** : Chloé
-7. **Classes implicites, Abstract** : Chloé

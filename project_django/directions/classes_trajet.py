@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Django et Python n'importent pas de la meme facon les modules.
 # Il faut donc differencier deux facons d'importer, une qui servira au lancement de Django
 # Et une autre pour l'execution des fichiers Python
@@ -78,22 +80,49 @@ class Trajet:
         return summary
 
 
+    # Les étapes de l'itinéaires sont demandées en dehors des classes, dans le view, on met donc en place un accesseur
+    # Ils ne doivent néanmoins pas être modifiés à l'exterieur
     @property
     def etapes_iti(self):
         return self.__get_trajet_total()["etapes"]
 
+    # Les temps de trajet sont demandés en dehors des classes, dans le view, on met donc en place un accesseur.
+    # Ils ne doivent néanmoins pas être modifiés à l'exterieur
     @property
     def temps_trajet(self):
         return self.__get_trajet_total()["duration"]
 
+    # les stations de départ et d'arrivee peuvent être obtenues par un utilisateur qui aimerait se renseigner sur ce que
+    # Notre site lui renvoie. Ces accesseurs ne nous sont pas utiles dans le cadre de l'exercice.
+    @property
+    def station_depart(self):
+        return self._station_depart
+
+    @property
+    def station_arrivee(self):
+        return self._station_arrivee
+
+    # Dans le cadre de l'exercice, ces acceusseurs ne nous sont pas utiles. Néanmoins, si un utilisateur extérieur veut
+    # verifier quels sont les lieux de départ et d'arrivee, il pourra voir ce que Google a compris de ces input
+    @property
+    def lieu_depart(self):
+        # Affichage de ce que Google a compris
+
+    @property
+    def lieu_arrivee(self):
+        # Affiachage de ce que Google a compris
+
+
+    # Mode peut être accessible en lecture par un utilisateur extérieur s'il le requiert.
+    # Les classes filles peuvent modifier sa valeur, dans le respect des valeurs possibles.
     def _set_mode(self, nom_mode):
         if nom_mode in ["walking", 'driving', 'transit', "bicycling"]:
             self._mode = nom_mode
 
-    def _get_mode(self):
+    def get_mode(self):
         return self._mode
 
-    _mode = property(_get_mode, _set_mode)
+    mode = property(get_mode, _set_mode)
 
 
 
@@ -104,7 +133,7 @@ class Pieton(Trajet):
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
         self._station_arrivee = lieu_arrivee
-        self._mode = "walking"
+        self.mode = "walking"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -117,7 +146,7 @@ class Metro(Trajet):
     def __init__(self, lieu_depart, lieu_arrivee):
         self._station_depart = lieu_depart
         self._station_arrivee = lieu_arrivee
-        self._mode = "transit"
+        self.mode = "transit"
         Trajet.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -138,10 +167,10 @@ class Location(Trajet):
         if self._dataset.lower() in ["stations-velib-disponibilites-en-temps-reel", "stations_et_espaces_autolib_de_la_metropole_parisienne"]:
             self._dataset = nom_dataset.lower()
 
-    def _get_dataset(self):
+    def get_dataset(self):
         return self._dataset
 
-    _dataset = property(_get_dataset, _set_dataset)
+    dataset = property(get_dataset, _set_dataset)
 
 
 
@@ -155,7 +184,7 @@ class Location(Trajet):
         # Perimetre autour dans lequel on souhaite trouver nos stations
         radius = 5000
         web_services_loc = webservices.OpendataParisClass()
-        resp = web_services_loc.call_opendata(lat, lng, radius, self._dataset)
+        resp = web_services_loc.call_opendata(lat, lng, radius, self.dataset)
 
         # Recupere l'adresse et l'identifiant de la station la plus proche
         closest_station_address, closest_station_name = self.get_info_station(resp)
@@ -167,8 +196,8 @@ class Velib(Location):
     """Permet de definir les informations specifiques aux Velibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._dataset = "stations-velib-disponibilites-en-temps-reel"
-        self._mode = "bicycling"
+        self.dataset = "stations-velib-disponibilites-en-temps-reel"
+        self.mode = "bicycling"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 
@@ -201,8 +230,8 @@ class Autolib(Location):
     """Permet de definir les informations specifiques aux Autolibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
-        self._mode = "driving"
+        self.dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
+        self.mode = "driving"
         Location.__init__(self, lieu_depart, lieu_arrivee)
 
 

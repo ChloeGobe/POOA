@@ -66,13 +66,19 @@ class Trajet:
         if etapeC['duration'] < datetime.timedelta(minutes=1) or len(etapeC["etapes"]) < 2:
             etapeC["etapes"] = ['']
 
+        transition = "Prenez votre "+str(self.__class__.__name__)
+        if self.__class__.__name__=="Pieton":
+            E = [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
+        else:
+            E = [etapeA["etapes"],["Prenez votre {}".format(str(self.__class__.__name__))],etapeB["etapes"],etapeC["etapes"]]
+
         summary = {
             "duration": etapeA["duration"] +
                         etapeB["duration"] +
                         etapeC["duration"]
             ,
             # Les precisions des differentes etapes pourront être enlevees après l'etape de developement
-            "etapes" : [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
+            "etapes" : E
         }
         return summary
 

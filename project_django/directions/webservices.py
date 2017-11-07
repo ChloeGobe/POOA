@@ -202,4 +202,3 @@ class OpendataParisClass(WebServices):
 if __name__ == '__main__':
     test = GoogleClass()
     print(test.get_info_adresse("10 rue Tolbiac"))
-

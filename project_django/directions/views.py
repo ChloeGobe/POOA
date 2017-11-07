@@ -3,6 +3,7 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from directions.classes_trajet import *
 from directions.webservices import WeatherClass
+from directions.definition_exceptions import MeteoBroken
 import json
 
 def index(request):
@@ -38,12 +39,16 @@ def results(request):
             isloaded= False
 
         # Gestion de la pluie
-        #weather = WeatherClass("Paris")
-        #weather_like,bad_conditions = weather.does_it_rain()
-        weather_like,bad_conditions = "TEST",False
-
+        try:
+            weather = WeatherClass("Paris")
+            weather_like,bad_conditions = weather.does_it_rain()
+        except MeteoBroken:
+            weather_like="Trop d'appels aujourd'hui à OpenWeatherMap"
+            bad_conditions=False
+            pass;
 
         #Dans tous les cas on calcule les trajets metro et autolib
+
         trajet_metro = Metro(depart, arrivee)
         trajet_autolib = Autolib(depart, arrivee)
         trajets = [trajet_metro, trajet_autolib]

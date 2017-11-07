@@ -37,14 +37,12 @@ def communication(url, key=""):
 class GoogleClass:
     """Definit les differents services internet de Google qui vont être nécessaires"""
 
-    def __init__(self,departure,arrival,mode):
+    def __init__(self,departure="",arrival="",mode=""):
 
         # Vérifie le type des arguments
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
 
-        print(mode)
-        print(type(mode))
         if not isinstance(departure, str):
             raise TypeError("Le departure doit etre une chaine de caracteres")
         if not isinstance(arrival, str):
@@ -136,7 +134,7 @@ class GoogleClass:
         return directions_propres, time
 
 
-    def get_latlong(self,address):
+    def get_info_adresse(self,address):
         """Transforme une adresse pour la convertir en coordonnees de geolocalisation"""
 
         address.replace(" ", "+")
@@ -155,6 +153,7 @@ class GoogleClass:
 
 
         coord = result.get('results')[0].get('geometry').get('location')
+        adresse_format = result.get("results")[0].get("formatted_address")
 
         # Verifie que les coordonnées du lieu designent bien un lieu dans Paris
         if coord['lng'] < 2.241803 or coord['lng'] > 2.430441:
@@ -162,7 +161,7 @@ class GoogleClass:
         if coord['lat'] < 48.813377 or coord['lat'] > 48.908506:
             raise definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
 
-        return (coord['lat'], coord['lng'])
+        return [(coord['lat'], coord['lng']), adresse_format]
 
 
 class WeatherClass:
@@ -198,4 +197,8 @@ class OpendataParisClass:
         """Recupere les informations de l'open data en fonction de parametres geographiques"""
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         return communication(url)
+
+if __name__ == '__main__':
+    test = GoogleClass()
+    print(test.get_info_adresse("10 rue Tolbiac"))
 

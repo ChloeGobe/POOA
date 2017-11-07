@@ -13,7 +13,8 @@ class QuotaAtteint(Exception):
     pass
 
 class MeteoBroken(Exception):
-    pass
+    def __init__(self,message):
+        self.text=message
 
 class ModeNonDefini(Exception):
     pass

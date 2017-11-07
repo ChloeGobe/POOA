@@ -42,31 +42,35 @@ def results(request):
         try:
             weather = WeatherClass("Paris")
             weather_like,bad_conditions = weather.does_it_rain()
-        except MeteoBroken:
-            weather_like="Trop d'appels aujourd'hui à OpenWeatherMap"
+        except MeteoBroken as exc:
+            weather_like=exc.text
             bad_conditions=False
+
             pass;
 
         #Dans tous les cas on calcule les trajets metro et autolib
 
-        trajet_metro = Metro(depart, arrivee)
-        trajet_autolib = Autolib(depart, arrivee)
-        trajets = [trajet_metro, trajet_autolib]
+        try:
+            trajet_metro = Metro(depart, arrivee)
+            trajet_autolib = Autolib(depart, arrivee)
+            trajets = [trajet_metro, trajet_autolib]
 
-        # Trajet a pied depend des conditions meteo
-        if not bad_conditions:
-            trajet_a_pied = Pieton(depart, arrivee)
-            trajets += [trajet_a_pied]
+            # Trajet a pied depend des conditions meteo
+            if not bad_conditions:
+                trajet_a_pied = Pieton(depart, arrivee)
+                trajets += [trajet_a_pied]
 
-            # Trajet velib depend de la charge portee par l'utilisateur et de la méteo
-            if not isloaded:
-                trajet_velib = Velib(depart, arrivee)
-                trajets += [trajet_velib]
+                # Trajet velib depend de la charge portee par l'utilisateur et de la méteo
+                if not isloaded:
+                    trajet_velib = Velib(depart, arrivee)
+                    trajets += [trajet_velib]
 
-            trajet_min = trajet_a_pied
+                trajet_min = trajet_a_pied
 
-        else:
-            trajet_min = trajet_autolib
+            else:
+                trajet_min = trajet_autolib
+        except GoogleClassError as exc:
+            erreur=
 
         # Calcul du trajet avec le temps de trajet minimum, parmi ceux acceptables.
         for i in trajets:

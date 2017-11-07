@@ -173,8 +173,9 @@ class WeatherClass(WebServices):
 
         result = self._communication(url, WEATHER_KEY)
 
-        if 'weather' not in result.keys():
-            raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
+        #if 'weather' not in result.keys():
+
+        raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
 
         meteo = result.get('weather')[0].get('description')
 

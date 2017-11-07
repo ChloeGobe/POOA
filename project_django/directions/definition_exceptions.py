@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
 
-class AdresseNonComprise(Exception):
+class GoogleClassError(Exception):
+    def __init__(self, message):
+        self.text = message
+
+class AdresseNonComprise(GoogleClassError):
     pass
 
-class AdresseHorsParis(Exception):
+class AdresseHorsParis(GoogleClassError):
     pass
 
-class ItineraireNonTrouve(Exception):
+class ItineraireNonTrouve(GoogleClassError):
     pass
 
-class QuotaAtteint(Exception):
+class QuotaAtteint(GoogleClassError):
     pass
+
+class ModeNonDefini(GoogleClassError):
+    pass
+
 
 class MeteoBroken(Exception):
     def __init__(self,message):
         self.text=message
 
-class ModeNonDefini(Exception):
-    pass

@@ -36,10 +36,10 @@ class Trajet:
 
     def _get_trajet_specifique(self):
         """Calcule le trajet spécifique à l'aide de Google Maps Directions"""
-        web_services = webservices.GoogleClass(self._station_depart, self._station_arrivee, self._mode)
+        web_services = webservices.GoogleClass()
 
         # Résume dans un dictionnaire les différentes étapes du trajet et son temps total
-        infos = web_services.get_etapes_and_time()
+        infos = web_services.get_etapes_and_time(self._station_depart, self._station_arrivee, self._mode)
         summary = {
             'duration':infos[1],
             "etapes": infos[0],
@@ -115,6 +115,16 @@ class Trajet:
     @property
     def station_arrivee(self):
         return self._station_arrivee
+
+    # les lieux de départ et d'arrivée peuvent être obtenues par un utilisateur qui aimerait se renseigner sur ce que
+    # notre site lui renvoie. Ces accesseurs ne nous sont pas utiles dans le cadre de l'exercice.
+    @property
+    def lieu_depart(self):
+        return self._lieu_depart
+
+    @property
+    def lieu_arrivee(self):
+        return self._lieu_arrivee
 
     # Dans le cadre de l'exercice, ces accesseurs ne nous sont pas utiles. Néanmoins, si un utilisateur extérieur veut
     # verifier quels sont les lieux de départ et d'arrivée, il pourra voir ce que Google a compris de ses input
@@ -218,6 +228,7 @@ class Location(Trajet):
         closest_station_address, closest_station_name = self.get_info_station(resp)
 
         return closest_station_address
+
 
 
 

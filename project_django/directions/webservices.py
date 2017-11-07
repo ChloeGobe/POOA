@@ -37,7 +37,12 @@ def communication(url, key=""):
 class GoogleClass:
     """Definit les differents services internet de Google qui vont être nécessaires"""
 
-    def __init__(self,departure="",arrival="",mode=""):
+    def __init__(self):
+        pass
+
+
+    def get_etapes_and_time(self, departure, arrival, mode):
+        """Obtenir les directions et le temps du trajet"""
 
         # Vérifie le type des arguments
         arrival = arrival.encode('utf8').decode()
@@ -49,18 +54,8 @@ class GoogleClass:
             raise TypeError("Le arrival doit etre une chaine de caracteres")
         if not isinstance(mode, str):
             raise TypeError("Le nom doit etre une chaine de caracteres")
-        self.departure = departure
-        self.arrival = arrival
-        self.duration = 0
-        self.mode=mode
 
-
-
-
-    def get_etapes_and_time(self):
-        """Obtenir les directions et le temps du trajet"""
-
-        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ self.departure + '&language=fr'+'&destination='+ self.arrival + '&region=fr' + '&mode=' + self.mode + '&key='
+        url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ departure + '&language=fr'+'&destination='+ arrival + '&region=fr' + '&mode=' + mode + '&key='
 
         result = communication(url, GOOGLE_KEY)
 
@@ -192,6 +187,9 @@ class WeatherClass:
 class OpendataParisClass:
     """Definit les appels a l'OpenData de la ville de Paris pour obtenir des informations sur les Velibs et Autolibs
     Les informations seront traitees dans le fichier des classes Velibs et Autolibs"""
+
+    def __init__(self):
+        pass
 
     def call_opendata(self,lat,lng,radius,dataset):
         """Recupere les informations de l'open data en fonction de parametres geographiques"""

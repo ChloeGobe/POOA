@@ -3,7 +3,7 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from directions.classes_trajet import *
 from directions.webservices import WeatherClass
-from directions.definition_exceptions import MeteoBroken
+from directions.definition_exceptions import MeteoBroken,GoogleClassError
 import json
 
 def index(request):
@@ -49,7 +49,7 @@ def results(request):
             pass;
 
         #Dans tous les cas on calcule les trajets metro et autolib
-
+        erreur=""
         try:
             trajet_metro = Metro(depart, arrivee)
             trajet_autolib = Autolib(depart, arrivee)
@@ -70,7 +70,9 @@ def results(request):
             else:
                 trajet_min = trajet_autolib
         except GoogleClassError as exc:
-            erreur=
+            erreur=exc.text
+            return render(request, 'results.html',{"erreur":erreur} )
+
 
         # Calcul du trajet avec le temps de trajet minimum, parmi ceux acceptables.
         for i in trajets:

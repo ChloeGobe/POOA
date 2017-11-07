@@ -11,12 +11,10 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 ## Que reste-t'il à faire ?
 
-1. **Multithreading** : Eymard
-2. **Exceptions** : Chloé pour le back, Eymard pour le front
-3. **Read Me User** : 
+1. **Read Me User** : 
     - Chloé : 
         - Safari à éviter pour l'autocomplete
     - Eymard :
         - Explication de toute l'arborescence
-4. **Nettoyer le Github avant soumission**
+2. **Nettoyer le Github avant soumission**
                  

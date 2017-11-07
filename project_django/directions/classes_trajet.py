@@ -120,13 +120,15 @@ class Trajet:
     # verifier quels sont les lieux de départ et d'arrivée, il pourra voir ce que Google a compris de ses input
     @property
     def lieu_depart_google(self):
-        # Affichage de ce que Google a compris
-        pass;
+        web_services_google = webservices.GoogleClass()
+        adresse_google = web_services_google.get_info_adresse(self._lieu_depart)[1]
+        return adresse_google
 
     @property
     def lieu_arrivee_google(self):
-        # Affiachage de ce que Google a compris
-        pass;
+        web_services_google = webservices.GoogleClass()
+        adresse_google = web_services_google.get_info_adresse(self._lieu_arrivee)[1]
+        return adresse_google
 
     # Pour un utilisateur extérieur
     @property
@@ -204,8 +206,8 @@ class Location(Trajet):
         """Permet d'obtenir les stations les plus proches de Velib et Autolib"""
 
         # Transforme une adresse en coordonnees géographiques qui vont etre utilisé par l'API OpenData"
-        web_services_google = webservices.GoogleClass(address, "", "walking")
-        lat, lng = web_services_google.get_latlong(address)
+        web_services_google = webservices.GoogleClass()
+        lat, lng = web_services_google.get_info_adresse(address)[0]
 
         # Périmetre autour  duquel on souhaite trouver nos stations
         radius = 5000
@@ -284,4 +286,4 @@ class Autolib(Location):
 
 if __name__ == '__main__':
     test = Autolib("9 rue Tolbiac", "32 rue de Passy")
-    print(test.__dict__)
+    print(test.lieu_depart_google, test.lieu_arrivee_google)

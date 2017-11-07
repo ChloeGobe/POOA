@@ -17,9 +17,7 @@ except ModuleNotFoundError:
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 GOOGLE_KEY_SECOURS = 'AIzaSyBbGFsuZ4lz4BsamY8nMiUH3HLGomwIZmU'
-
 WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
-VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 
 
@@ -45,9 +43,6 @@ class WebServices:
 class GoogleClass(WebServices):
     """Definit les differents services internet de Google qui vont être nécessaires"""
 
-    def __init__(self):
-        pass
-
 
     def get_etapes_and_time(self, departure, arrival, mode):
         """Obtenir les directions et le temps du trajet"""
@@ -65,11 +60,11 @@ class GoogleClass(WebServices):
 
         url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ departure + '&language=fr'+'&destination='+ arrival + '&region=fr' + '&mode=' + mode + '&key='
 
-        result = communication(url, GOOGLE_KEY)
+        result = self._communication(url, GOOGLE_KEY)
 
         # Quota d'appel à l'API Google Maps atteint pour la clé, il faut en changer
         if result.get("status") == 'OVER_QUERY_LIMIT':
-            result = communication(url, GOOGLE_KEY_SECOURS)
+            result = self._communication(url, GOOGLE_KEY_SECOURS)
             if result.get("status") == 'OVER_QUERY_LIMIT':
                 raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celles disponibles (pour aujourd'hui)")
 
@@ -142,11 +137,11 @@ class GoogleClass(WebServices):
 
         address.replace(" ", "+")
         url = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+"+&key="
-        result = communication(url, GOOGLE_KEY)
+        result = self._communication(url, GOOGLE_KEY)
 
         # Quota d'appel à l'API Google Maps atteint pour la clé, il faut en changer
         if result.get("status") == 'OVER_QUERY_LIMIT':
-            result = communication(url, GOOGLE_KEY_SECOURS)
+            result = self._communication(url, GOOGLE_KEY_SECOURS)
             if result.get("status") == 'OVER_QUERY_LIMIT':
                 raise definition_exceptions.QuotaAtteint("Changez de clé d'API, la limite a été atteinte avec celles disponibles (pour aujourd'hui)")
 
@@ -176,7 +171,7 @@ class WeatherClass(WebServices):
         """Permet de savoir si les conditions meteos sont bonnes"""
         url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&APPID="
 
-        result = communication(url, WEATHER_KEY)
+        result = self._communication(url, WEATHER_KEY)
 
         if 'weather' not in result.keys():
             raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
@@ -202,7 +197,7 @@ class OpendataParisClass(WebServices):
     def call_opendata(self,lat,lng,radius,dataset):
         """Recupere les informations de l'open data en fonction de parametres geographiques"""
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
-        return communication(url)
+        return self._communication(url)
 
 if __name__ == '__main__':
     test = GoogleClass()

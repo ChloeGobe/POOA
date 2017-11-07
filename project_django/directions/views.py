@@ -38,8 +38,9 @@ def results(request):
             isloaded= False
 
         # Gestion de la pluie
-        weather = WeatherClass("Paris")
-        weather_like,bad_conditions = weather.does_it_rain()
+        #weather = WeatherClass("Paris")
+        #weather_like,bad_conditions = weather.does_it_rain()
+        weather_like,bad_conditions = "TEST",True
 
 
         #Dans tous les cas on calcule les trajets metro et autolib

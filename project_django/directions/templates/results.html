@@ -34,12 +34,23 @@
         <div  id="etapesliste" style="display:none; color:black; margin-left:20%;">
           <div class="list-group">
           {% for elem in etapes %}
+              {%if elem.methode == 'walking'%}
+                <img src="{% static "walk.svg" %}" style="margin-right:30px;margin-top:20px;width:25px; height:25px;"></span>
+              {%endif%}
+              {%if elem.methode == 'transit'%}
+                <img src="{% static "metro.svg" %}" style="margin-right:30px;margin-top:20px;width:25px; height:25px;"></span>
+              {%endif%}
+              {%if elem.methode == 'bicycling'%}
+                <img src="{% static "velib.svg" %}" style="margin-right:30px;margin-top:20px;width:25px; height:25px;"></span>
+              {%endif%}
+              {%if elem.methode == 'driving'%}
+                <img src="{% static "autolib.svg" %}" style="margin-right:30px;margin-top:20px;width:25px; height:25px;"></span>
+              {%endif%}
+
               {%for steps in elem.portion%}
-                {%if elem.methode == 'walking'%}
-                  <img src="walk.svg">
-                {%endif%}
                 <p><div class="list-group-item" >{{ steps }}</div></p>
               {% endfor %}
+
               <hr>
           {% endfor %}
           </div>

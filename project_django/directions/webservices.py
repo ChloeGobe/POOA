@@ -157,9 +157,9 @@ class GoogleClass:
         coord = result.get('results')[0].get('geometry').get('location')
 
         # Verifie que les coordonnées du lieu designent bien un lieu dans Paris
-        if coord['lng'] < 2.22 or coord['lng'] > 2.44:
+        if coord['lng'] < 2.241803 or coord['lng'] > 2.430441:
             raise  definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
-        if coord['lat'] < 48.81 or coord['lat'] > 48.91 :
+        if coord['lat'] < 48.813377 or coord['lat'] > 48.908506:
             raise definition_exceptions.AdresseHorsParis("L'adresse '{}' ne semble pas se trouver à Paris".format(address))
 
         return (coord['lat'], coord['lng'])

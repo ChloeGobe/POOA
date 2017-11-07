@@ -22,19 +22,27 @@ WEATHER_KEY = "f3904bf691d361bae156a10d1ab0fc93"
 VELIB_KEY= "1a502a8fc4844b5414f7510e95998d40a9f02b4c"
 
 
-def communication(url, key=""):
-    """Recupere un json dans la réponse de l'API"""
-    resp = get(url + key)
 
-    # Permet de verifier qu'une reponse est bien obtenue
-    if resp.status_code != 200:
-        raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
-
-    result = resp.json()
-    return result
+class WebServices:
 
 
-class GoogleClass:
+    def _communication(self, url, key=""):
+        """Recupere un json dans la réponse de l'API"""
+        resp = get(url + key)
+
+        # Permet de verifier qu'une reponse est bien obtenue
+        if resp.status_code != 200:
+            raise HTTPError('GET /tasks/ {}'.format(resp.status_code))
+
+        result = resp.json()
+        return result
+
+
+# Dans les classes ci-dessous, il n'y a pas d'attributs stockés.
+# Les méthodes sont utilisées dans les classes de classess_trajet, c'est pourquoi nous ne les protégeons pas.
+
+
+class GoogleClass(WebServices):
     """Definit les differents services internet de Google qui vont être nécessaires"""
 
     def __init__(self):
@@ -159,7 +167,7 @@ class GoogleClass:
         return [(coord['lat'], coord['lng']), adresse_format]
 
 
-class WeatherClass:
+class WeatherClass(WebServices):
     """Definit la classe qui va appeler les services meteo"""
     def __init__(self, city):
         self.city = city
@@ -184,7 +192,7 @@ class WeatherClass:
             return traduction_fr[meteo],False
 
 
-class OpendataParisClass:
+class OpendataParisClass(WebServices):
     """Definit les appels a l'OpenData de la ville de Paris pour obtenir des informations sur les Velibs et Autolibs
     Les informations seront traitees dans le fichier des classes Velibs et Autolibs"""
 

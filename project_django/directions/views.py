@@ -40,7 +40,7 @@ def results(request):
         # Gestion de la pluie
         #weather = WeatherClass("Paris")
         #weather_like,bad_conditions = weather.does_it_rain()
-        weather_like,bad_conditions = "TEST",True
+        weather_like,bad_conditions = "TEST",False
 
 
         #Dans tous les cas on calcule les trajets metro et autolib
@@ -72,7 +72,14 @@ def results(request):
 
         etapes_trajet = trajet_min.etapes_iti
         duree_trajet = trajet_min.temps_trajet
+        infos_trajet={'lieu_arrivee_google':trajet_min.lieu_arrivee_google,
+                    'lieu_depart_google': trajet_min.lieu_depart_google,
+                    'weather_like':weather_like,
+                    'bad_conditions':bad_conditions,
+                    'moyen':str(nom_trajet),
+                    'etapes':etapes_trajet,
+                    'duree':str(duree_trajet)}
 
-        return render(request, 'results.html', {'weather_like':weather_like,'bad_conditions':bad_conditions,'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})
+        return render(request, 'results.html',infos_trajet )
     else:
         return HttpResponseRedirect('index.html')

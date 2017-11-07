@@ -20,17 +20,23 @@
     {% endif %}
 
     <div style="margin-top:30%;">
-        <button class="alert alert-warning" style="font-size:15px; color:red; margin-left:20%;"> Prédictions météos: {{weather_like}}</button>
+
+      <div style="border-color:black">
+        <div style="font-size:20px; color:black; margin-left:10%;"><strong> Départ:</strong> {{lieu_depart_google}} </div>
+        <div style="font-size:20px; color:black; margin-left:10%;"> <strong>Arrivée:</strong>  {{lieu_arrivee_google}} </div>
+      </div>
+    </br></br>
+        <button class="alert alert-warning" style="font-size:15px; color:red; margin-left:10%;"> Prédictions météos: {{weather_like}}</button>
 
         {% if bad_conditions %}
-          <button class="alert alert-warning" style="font-size:15px; color:red; margin-left:20%;"> La météo est mauvaise, nous avons adapté votre itinéraire</button>
+          <button class="alert alert-warning" style="font-size:15px; color:red; margin-left:10%;"> La météo est mauvaise, nous avons adapté votre itinéraire</button>
         {% endif %}
 
-        <button class="alert alert-success" style="font-size:15px; color:red; margin-left:20%;"> Moyen de transport le plus rapide: {{moyen}} </button>
-        <button onClick="window.location.href='index'" id="new_planificateur" style="margin-left:20%;" class="button button-success button-large"> Planifier un nouveau trajet </button>
-        <button onclick="voirEtapes()" style="margin-left:20%;" class="button button-primary button-large" > Voir les étapes </button>
+        <button class="alert alert-success" style="font-size:15px; color:red; margin-left:10%;"> Moyen de transport le plus rapide: {{moyen}} </button>
+        <button onClick="window.location.href='index'" id="new_planificateur" style="margin-left:10%;" class="button button-success button-large"> Planifier un nouveau trajet </button>
+        <button onclick="voirEtapes()" style="margin-left:10%;" class="button button-primary button-large" > Voir les étapes </button>
 
-        <div  id="etapesliste" style="display:none; color:black; margin-left:20%;">
+        <div  id="etapesliste" style="display:none; color:black; margin-left:10%;">
           <div class="list-group">
           {% for elem in etapes %}
               {%if elem.methode == 'walking'%}

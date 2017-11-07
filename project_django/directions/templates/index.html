@@ -98,10 +98,24 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPT2PCpxO3nHLsHdtQjUteN1A3HvYcvoY&v=3.exp&libraries=places"></script>
 <script>
+
+
+
+
 function initializeDepart() {
 
+  var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(48.813377,2.430441),
+    new google.maps.LatLng(2.241803, 48.908506));
+
+
+    var options = {
+      bounds: defaultBounds,
+      types: ['address']
+    };
+
 var input = document.getElementById('depart');
-var autocomplete = new google.maps.places.Autocomplete(input);
+var autocomplete = new google.maps.places.Autocomplete(input,options);
 }
 
 google.maps.event.addDomListener(window, 'load', initializeDepart);
@@ -109,15 +123,16 @@ google.maps.event.addDomListener(window, 'load', initializeDepart);
 function initializeArrivee() {
 
 var input = document.getElementById('arrivee');
-var autocomplete = new google.maps.places.Autocomplete(input);
+var autocomplete = new google.maps.places.Autocomplete(input,options);
 }
 
 google.maps.event.addDomListener(window, 'load', initializeArrivee);
 
 </script>
 <style type="text/css">
-  table.gsc-completion-container {
+ .pac-container {
+    position: absolute;
     z-index: 10000 !important; }
-</style> 
+</style>
 
 </html>

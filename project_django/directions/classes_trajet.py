@@ -26,9 +26,12 @@ class Trajet:
                 3. le trajet à pied jusqu'au point d'arrivée"""
 
 
-    def __init__(self, lieu_depart, lieu_arrivee):
+    def __init__(self, lieu_depart, lieu_arrivee, station_depart, station_arrivee, mode):
         self._lieu_depart = lieu_depart
         self._lieu_arrivee = lieu_arrivee
+        self._station_depart = station_depart
+        self._station_arrivee = station_arrivee
+        self._mode = mode
 
 
     def _get_trajet_specifique(self):
@@ -68,9 +71,17 @@ class Trajet:
         transition = "Prenez votre "+str(self.__class__.__name__)
 
         if self.__class__.__name__ == "Pieton":
-            liste_etapes = [etapeA["etapes"],etapeB["etapes"],etapeC["etapes"]]
+            liste_etapes = [
+                {"portion" : etapeA["etapes"], "methode" : "walking"},
+                {"portion" : etapeB["etapes"], "methode" : self._mode},
+                {"portion" : etapeC["etapes"], "methode" : "walking"}]
+
         else:
-            liste_etapes = [etapeA["etapes"],[transition],etapeB["etapes"],etapeC["etapes"]]
+            liste_etapes = [
+                {"portion": etapeA["etapes"], "methode": "walking"},
+                {"portion" : [transition], "methode": "transition"}
+                {"portion": etapeB["etapes"], "methode": self._mode},
+                {"portion": etapeC["etapes"], "methode": "walking"}]
 
         # Résume dans un dictionnaire les différentes étapes du trajet et son temps total
         summary = {
@@ -108,12 +119,12 @@ class Trajet:
     # Dans le cadre de l'exercice, ces accesseurs ne nous sont pas utiles. Néanmoins, si un utilisateur extérieur veut
     # verifier quels sont les lieux de départ et d'arrivée, il pourra voir ce que Google a compris de ses input
     @property
-    def lieu_depart(self):
+    def lieu_depart_google(self):
         # Affichage de ce que Google a compris
         pass;
 
     @property
-    def lieu_arrivee(self):
+    def lieu_arrivee_google(self):
         # Affiachage de ce que Google a compris
         pass;
 
@@ -133,10 +144,13 @@ class Pieton(Trajet):
     La classe est utilisée pour un trajet - pied mais aussi pour des portions de trajet realisées avec un moyen de transport different."""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._station_depart = lieu_depart
-        self._station_arrivee = lieu_arrivee
-        self._mode = "walking"
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+
+        Trajet.__init__(self,
+                        lieu_depart= lieu_depart,
+                        lieu_arrivee=lieu_arrivee,
+                        station_depart= lieu_depart,
+                        station_arrivee= lieu_arrivee,
+                        mode= "walking")
 
 
 
@@ -146,10 +160,13 @@ class Metro(Trajet):
     Le trajet en metro est consideré comme étant en une seule partie"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._station_depart = lieu_depart
-        self._station_arrivee = lieu_arrivee
-        self._mode = "transit"
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+
+        Trajet.__init__(self,
+                        lieu_depart= lieu_depart,
+                        lieu_arrivee= lieu_arrivee,
+                        station_depart= lieu_depart,
+                        station_arrivee= lieu_arrivee,
+                        mode= "transit")
 
 
 
@@ -157,11 +174,17 @@ class Location(Trajet):
     """Rassemble les locations de moyens de transport proposés par la Ville de Paris.
     Le trajet est en trois parties pour les trajets de cette classe"""
 
-    def __init__(self,lieu_depart, lieu_arrivee):
-        self._station_depart = self.__get_closest_station(lieu_depart)
-        self._station_arrivee = self.__get_closest_station(lieu_arrivee)
-        self._dataset = None
-        Trajet.__init__(self, lieu_depart, lieu_arrivee)
+    def __init__(self,lieu_depart, lieu_arrivee, dataset, mode):
+        self._dataset = dataset
+
+        Trajet.__init__(self,
+                        lieu_depart= lieu_depart,
+                        lieu_arrivee= lieu_arrivee,
+                        station_depart= self.__get_closest_station(lieu_depart),
+                        station_arrivee= self.__get_closest_station(lieu_arrivee),
+                        mode= mode )
+
+
 
     # Pour un utilisateur
     @property
@@ -200,9 +223,13 @@ class Velib(Location):
     """Permet de définir les informations specifiques aux Velibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._dataset = "stations-velib-disponibilites-en-temps-reel"
-        self._mode = "bicycling"
-        Location.__init__(self, lieu_depart, lieu_arrivee)
+        Location.__init__(self,
+                          lieu_depart= lieu_depart,
+                          lieu_arrivee= lieu_arrivee,
+                          dataset= "stations-velib-disponibilites-en-temps-reel",
+                          mode= "bicycling")
+
+
 
 
     def get_info_station(self, reponse_webservices):
@@ -234,9 +261,11 @@ class Autolib(Location):
     """Permet de définir les informations spécifiques aux Autolibs"""
 
     def __init__(self, lieu_depart, lieu_arrivee):
-        self._dataset = "stations_et_espaces_autolib_de_la_metropole_parisienne"
-        self._mode = "driving"
-        Location.__init__(self, lieu_depart, lieu_arrivee)
+        Location.__init__(self,
+                          lieu_depart= lieu_depart,
+                          lieu_arrivee= lieu_arrivee,
+                          dataset="stations_et_espaces_autolib_de_la_metropole_parisienne",
+                          mode= "driving")
 
 
     def get_info_station(self, reponse_webservices):
@@ -251,3 +280,8 @@ class Autolib(Location):
         if isinstance(name, bytes):
             name = name.decode()
         return adresse, name
+
+
+if __name__ == '__main__':
+    test = Autolib("9 rue Tolbiac", "32 rue de Passy")
+    print(test.__dict__)

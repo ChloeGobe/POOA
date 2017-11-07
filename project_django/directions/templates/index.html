@@ -66,6 +66,8 @@
 <div class="container container-pod t-center">
 <div class="footer-links">
 <ul id="menu-footer-menu" class="nav footer-nav clearfix">
+  <img src="walk.svg">
+
 <li><a href="http://cours.etudes.ecp.fr">Site des études</a></li>
 </ul>
 </div>
@@ -101,18 +103,18 @@
 
 
 
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(48.813377,2.241803),
+  new google.maps.LatLng(48.908506,2.430441));
+
+
+  var options = {
+    bounds: defaultBounds,
+    types: ['address']
+  };
 
 function initializeDepart() {
 
-  var defaultBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(48.813377,2.430441),
-    new google.maps.LatLng(2.241803, 48.908506));
-
-
-    var options = {
-      bounds: defaultBounds,
-      types: ['address']
-    };
 
 var input = document.getElementById('depart');
 var autocomplete = new google.maps.places.Autocomplete(input,options);

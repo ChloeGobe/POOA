@@ -79,7 +79,7 @@ class Trajet:
         else:
             liste_etapes = [
                 {"portion": etapeA["etapes"], "methode": "walking"},
-                {"portion" : [transition], "methode": "transition"}
+                {"portion" : [transition], "methode": "transition"},
                 {"portion": etapeB["etapes"], "methode": self._mode},
                 {"portion": etapeC["etapes"], "methode": "walking"}]
 

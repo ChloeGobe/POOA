@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from directions.classes_trajet import *
 from directions.webservices import WeatherClass
 import json
@@ -73,3 +73,5 @@ def results(request):
         duree_trajet = trajet_min.temps_trajet
 
         return render(request, 'results.html', {'weather_like':weather_like,'bad_conditions':bad_conditions,'moyen':str(nom_trajet), 'etapes':etapes_trajet, 'duree':str(duree_trajet)})
+    else:
+        return HttpResponseRedirect('index.html')

@@ -34,7 +34,10 @@
         <div  id="etapesliste" style="display:none; color:black; margin-left:20%;">
           <div class="list-group">
           {% for elem in etapes %}
-              {%for steps in elem%}
+              {%for steps in elem.portion%}
+                {%if elem.methode == 'walking'%}
+                  <img src="walk.svg">
+                {%endif%}
                 <p><div class="list-group-item" >{{ steps }}</div></p>
               {% endfor %}
               <hr>

@@ -1,92 +1,84 @@
 <html >
   <head>
-  <title>Centrale Mapper | Travel easily</title>
+  <title>Centrale Mapper | Voyagez autrement</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
+  <body class="">
+  <div class="stage">
+  <header id="header" data-template="stage-header">
+  </header>
+  <div id="container" class="clearfix">
+  <div class="container container-pod shorten-container">
+    <h1 class="page-title t-center" style="color:black;">Centrale Mapper</h1>
+    <div class="join-bitly t-center" style="color:grey;">Où allons-nous aujourd'hui ?</div>
+    <button class="button button-primary button-large" style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Traitement en cours...</button>
+    <button class="button btn-warning button-large" style="display:none;margin-top:10%;padding:50px;margin-left:20%;" id="loader2" > Le saviez-vous ? Nous tenons compte de la météo dans nos recommandations !</button>
 
-<body class="">
-<div class="stage">
-<header id="header" data-template="stage-header">
-</header>
-<div id="container" class="clearfix">
-<div class="container container-pod shorten-container">
-  <h1 class="page-title t-center" style="color:black;">Centrale Mapper</h1>
-  <div class="join-bitly t-center" style="color:grey;">Où allons-nous aujourd'hui ?</div>
+    <div  style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
 
-<button class="button button-primary button-large" style="display:none;margin-left: 40%;margin-right: 40%;position:absolute;" id="loader" > Traitement en cours...</button>
+    <form id="centrale_mapper_form" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl">
+          <fieldset class="cf">
+          {% csrf_token %}
+          <div class="form-group" >
+            <div class="col-sm-10" >
+              <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="depart" placeholder="D'où partez-vous ?">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-10">
+              <label class="control-label col-sm-2" style="color:black;" ><strong>.</strong></label>
 
-<div  style="display:block; text-align: center;" id="form_container" class="t-center mid-container foot-room">
-
-<form id="centrale_mapper_form" class="form-horizontal" method="post" action="/directions/results" name="shortenUrl">
-  <fieldset class="cf">
-  {% csrf_token %}
-  <div class="form-group" >
-    <div class="col-sm-10" >
-      <input value= "{{ current_place }}" class="shorten-input" name="depart" type="text" class="form-control" id="depart" placeholder="D'où partez-vous ?">
-    </div>
+              <input type="text"  value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control"  id="arrivee" placeholder="Où vous rendez-vous ?">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">.</label>
+            <div class="checkbox" style="color:black; background-color:white;margin-left:30%;margin-right:30%;" >
+              <input  type="checkbox" value="{{loaded}}" name="loaded"> J'ai une charge à porter
+            </div>
+          </div>
+        <div>
+          <button style="margin-top:15%;" id="submit_button" type="submit" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
+        </div>
+        </fieldset>
+    </form>
   </div>
-  <div class="form-group">
-    <div class="col-sm-10">
-      <label class="control-label col-sm-2" style="color:black;" ><strong>.</strong></label>
-
-      <input type="text"  value="{{ futur_place }}" class="shorten-input" name="arrivee" class="form-control"  id="arrivee" placeholder="Où vous rendez-vous ?">
-    </div>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2">.</label>
-    <div class="checkbox" style="color:black; background-color:white;margin-left:30%;margin-right:30%;" >
-      <input  type="checkbox" value="{{loaded}}" name="loaded"> J'ai une charge à porter
-    </div>
+  </div>
   </div>
 
+  <div class="container clearfix">
+  <footer id="footer" role="contentinfo" data-template="stage-footer">
+  <section class="stage-pod">
+  <div class="container container-pod t-center">
+  <div class="footer-links">
+  <ul id="menu-footer-menu" class="nav footer-nav clearfix">
 
-<div>
-  <button style="margin-top:15%;" id="submit_button" type="submit" class="button button-primary button-large" value="Let's go!"/>Let's go</button>
-
-</div>
-</fieldset>
-</form>
-
-</div>
-</div>
-
-</div>
-</div>
-
-
-
-
-<div class="container clearfix">
-<footer id="footer" role="contentinfo" data-template="stage-footer">
-<section class="stage-pod">
-<div class="container container-pod t-center">
-<div class="footer-links">
-<ul id="menu-footer-menu" class="nav footer-nav clearfix">
-
-<li><a href="http://cours.etudes.ecp.fr">Site des études</a></li>
-</ul>
-</div>
-<div id="stage-sidebar">
-<div id="stage-sidebar-scrollable" class="container-scrollable ps-container">
-<div class="container container-pod container-pod-short">
-<ul id="menu-mobile-menu" class="nav top-nav clearfix">
-<li><a href="/">Linkedin</a></li>
-<li><a href="/pages/tour">Facebook</a></li>
-</ul>
-</div>
-</div>
-</div>
-</body>
+  <li><a href="http://cours.etudes.ecp.fr">Site des études</a></li>
+  </ul>
+  </div>
+  <div id="stage-sidebar">
+  <div id="stage-sidebar-scrollable" class="container-scrollable ps-container">
+  <div class="container container-pod container-pod-short">
+  <ul id="menu-mobile-menu" class="nav top-nav clearfix">
+  <li><a href="/">Linkedin</a></li>
+  <li><a href="/pages/tour">Facebook</a></li>
+  </ul>
+  </div>
+  </div>
+  </div>
+  </body>
 
 <script>
     $("#centrale_mapper_form").submit(function(e){
         e.preventDefault();
       //  alert("submitting")
-      $( "#loader" ).fadeIn( "slow", function() {
-      });
+      $( "#loader" ).fadeIn( "slow", function() {});
+      $( "#loader2" ).fadeIn( "slow", function() {});
+
 
         $( "#centrale_mapper_form" ).fadeOut( "slow", function() {
             $("#centrale_mapper_form")[0].submit();
@@ -94,13 +86,8 @@
     });
 
 </script>
-
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPT2PCpxO3nHLsHdtQjUteN1A3HvYcvoY&v=3.exp&libraries=places"></script>
 <script>
-
-
-
 var defaultBounds = new google.maps.LatLngBounds(
   new google.maps.LatLng(48.813377,2.241803),
   new google.maps.LatLng(48.908506,2.430441));
@@ -112,8 +99,6 @@ var defaultBounds = new google.maps.LatLngBounds(
   };
 
 function initializeDepart() {
-
-
 var input = document.getElementById('depart');
 var autocomplete = new google.maps.places.Autocomplete(input,options);
 }
@@ -121,7 +106,6 @@ var autocomplete = new google.maps.places.Autocomplete(input,options);
 google.maps.event.addDomListener(window, 'load', initializeDepart);
 
 function initializeArrivee() {
-
 var input = document.getElementById('arrivee');
 var autocomplete = new google.maps.places.Autocomplete(input,options);
 }

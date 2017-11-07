@@ -11,12 +11,6 @@ les stations de métro/vélib/autolib à proximité du lieu de départ et d’ar
 
 ## Que reste-t'il à faire ?
 
-
-1. **Design page de resultat** : Eymard
-	- Rppeler le point de depart et d'arrivee (utiliser celle interpretee par Google ? (en ajoutant deux attributs à l'objet trajet))
-
-2. **AutoComplete d'adresse sur le site ?** : Eymard
-3. **Multithreading** : Eymard
-4. **Read Me User** : Chloé (pas safari pour l'autocomplete)
-5. **Aller voir le barème de notation** : Chloé
-6. **Lieu depart/ Lieu d'arrivee Attribut en utilisant Google API** : Chloé
+1. **Multithreading** : Eymard
+2. **Read Me User** : Chloé (pas safari pour l'autocomplete)
+3. **Exceptions** : Chloé pour le back, Eymard pour le front

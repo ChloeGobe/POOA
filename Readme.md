@@ -34,7 +34,8 @@ Centrale Mapper est disponible uniquement à Paris et prend en charge les moyens
 - Open Data Paris : [documentation](https://opendata.paris.fr/api/v1/documentation "Title") 
 - Google Maps JavaScript (autocomplete) : [documentation](https://developers.google.com/maps/documentation/javascript/places-autocomplete)
 
-##<a name="requirements"></a> 3. Requirements techniques
+
+## <a name="requirements"></a>3. Requirements techniques
 
 ##### Python
 - `Python 3.6` et supérieur

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render,redirect,HttpResponseRedirect
+from django.shortcuts import render,HttpResponseRedirect
 from directions.classes_trajet import *
 from directions.webservices import WeatherClass
 from directions.definition_exceptions import MeteoBroken,GoogleClassError

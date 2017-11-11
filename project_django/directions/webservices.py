@@ -169,22 +169,22 @@ class WeatherClass(WebServices):
 
     def does_it_rain(self):
         """Permet de savoir si les conditions meteos sont bonnes"""
-        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&APPID="
+        url="http://api.openweathermap.org/data/2.5/weather?q="+self.city+",fr&lang=fr&APPID="
 
         result = self._communication(url, WEATHER_KEY)
 
         if 'weather' not in result.keys():
             raise definition_exceptions.MeteoBroken("L'appel à l'API Météo n'a pas marché (nombre de requête trop important ou erreur réseau)")
 
-        meteo = result.get('weather')[0].get('description')
+        meteo_general = result.get('weather')[0].get('main')
+        meteo_description = result.get('weather')[0].get('description').capitalize()
 
-        bad_conditions = ["shower rain", "rain", "thunderstorm", "snow", "mist"]
-        traduction_fr = {"few clouds":"Quelques nuages","scattered clouds":"Nuageux","broken clouds":"Très nuageux","clear sky":"ciel dégagé","shower rain":"Forte pluie", "rain":"Pluie", "thunderstorm":"Orage", "snow":"Neige", "mist":"Innondations"}
+        bad_conditions = ["Rain", "Thunderstorm", "Snow", "Extreme", "Drizzle", "Atmosphere"]
 
-        if meteo in bad_conditions:
-            return traduction_fr[meteo],True
+        if meteo_general in bad_conditions :
+            return meteo_description, True
         else:
-            return traduction_fr[meteo],False
+            return meteo_description, False
 
 
 class OpendataParisClass(WebServices):
@@ -200,5 +200,5 @@ class OpendataParisClass(WebServices):
         return self._communication(url)
 
 if __name__ == '__main__':
-    test = GoogleClass()
-    print(test.get_info_adresse("10 rue Tolbiac"))
+    test = WeatherClass("Paris")
+    print(test.does_it_rain())

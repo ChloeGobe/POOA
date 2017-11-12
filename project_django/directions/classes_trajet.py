@@ -7,9 +7,8 @@ try:
     from directions import webservices
 except ModuleNotFoundError:
     import webservices
-
+    
 import datetime
-
 
 class Trajet:
 

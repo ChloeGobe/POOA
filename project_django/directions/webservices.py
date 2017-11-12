@@ -13,7 +13,6 @@ try:
 except ModuleNotFoundError:
     import definition_exceptions
 
-
 # Liste des cles d'API necessaires a leur fonctionnement
 GOOGLE_KEY = 'AIzaSyCq64SBYC4TlMFNODwtm3D3XXcBsNoNpDw'
 GOOGLE_KEY_SECOURS = 'AIzaSyBbGFsuZ4lz4BsamY8nMiUH3HLGomwIZmU'
@@ -51,12 +50,6 @@ class GoogleClass(WebServices):
         arrival = arrival.encode('utf8').decode()
         departure = departure.encode('utf8').decode()
 
-        if not isinstance(departure, str):
-            raise TypeError("Le departure doit etre une chaine de caracteres")
-        if not isinstance(arrival, str):
-            raise TypeError("Le arrival doit etre une chaine de caracteres")
-        if not isinstance(mode, str):
-            raise TypeError("Le nom doit etre une chaine de caracteres")
 
         url = 'https://maps.googleapis.com/maps/api/directions/json?origin='+ departure + '&language=fr'+'&destination='+ arrival + '&region=fr' + '&mode=' + mode + '&key='
 

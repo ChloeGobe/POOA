@@ -29,8 +29,9 @@ def results(request):
         if len(depart)==0 or len(arrivee)==0:
             depart = "123 rue de Tolbiac"
             arrivee = "10 rue de Tolbiac"
-        depart =str(depart)
-        arrivee = str(arrivee)
+
+        depart =depart.encode('utf-8').decode()
+        arrivee = arrivee.encode('utf-8').decode()
 
         # Gestion du poids porte par l'usager: isloaded indique que ce dernier est charge
         if 'loaded' in content.keys():
@@ -45,7 +46,6 @@ def results(request):
         except MeteoBroken as exc:
             weather_like=exc.text
             bad_conditions=False
-
             pass;
 
         #Dans tous les cas on calcule les trajets metro et autolib

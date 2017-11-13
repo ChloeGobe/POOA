@@ -191,7 +191,3 @@ class OpendataParisClass(WebServices):
         """Recupere les informations de l'open data en fonction de parametres geographiques"""
         url="https://opendata.paris.fr/api/records/1.0/search/?dataset="+dataset+"&geofilter.distance="+str(lat)+"%2C"+str(lng)+"%2C"+str(radius)
         return self._communication(url)
-
-if __name__ == '__main__':
-    test = WeatherClass("Paris")
-    print(test.does_it_rain())

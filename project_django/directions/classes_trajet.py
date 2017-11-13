@@ -7,7 +7,7 @@ try:
     from directions import webservices
 except ModuleNotFoundError:
     import webservices
-    
+
 import datetime
 
 class Trajet:
@@ -292,8 +292,3 @@ class Autolib(Location):
         if isinstance(name, bytes):
             name = name.decode()
         return adresse, name
-
-
-if __name__ == '__main__':
-    test = Autolib("9 rue Tolbiac", "32 rue de Passy")
-    print(test.lieu_depart_google, test.lieu_arrivee_google)
